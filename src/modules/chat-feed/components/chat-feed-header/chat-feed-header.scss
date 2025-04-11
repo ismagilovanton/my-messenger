@@ -1,0 +1,40 @@
+.header {
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: black;
+  border-bottom: 1px solid $gray;
+
+  &__actions {
+    margin-left: auto;
+
+    .menu {
+     padding: 0px 11px;
+    }
+
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &--avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 100%;
+      background: $gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &--name {
+      font-weight: 600;
+      font-size: 18px;
+      color: $main;
+    }
+  }
+
+
+}

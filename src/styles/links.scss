@@ -1,0 +1,22 @@
+.links {
+    max-width: 450px;
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0px;
+    
+    &__item {
+      border-radius: 8px;
+      padding: 10px;
+      background-color: $accent;
+      color: $lightGray;
+  
+      &:hover {
+        color: $main;
+        background: rgba(255, 112, 102, 10%);
+      }
+    }
+  }
+  
