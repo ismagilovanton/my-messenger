@@ -2,7 +2,7 @@ import Picture from "../../../public/icons/picture.svg";
 
 export default `
 
-    <div class="profile">
+    <form class="profile">
 
         <div class="profile__avatar">
             <img src="${Picture}" alt="avatar" class="icon">
@@ -42,7 +42,7 @@ export default `
             </div>
         </div>
 
-    </div>
+    </form>
 
 
     </div>
