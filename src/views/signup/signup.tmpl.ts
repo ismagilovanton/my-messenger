@@ -12,7 +12,7 @@ export default `
               {{>input label="Имя" value="Иван" type="text" name="first_name"}}
             </div>
              <div class="form-group">
-              {{>input label="Фамилия" value="Иванов" type="text" name="last_name"}}
+              {{>input label="Фамилия" value="Иванов" type="text" name="second_name"}}
             </div>
              <div class="form-group">
               {{>input label="Телефон" value="+7 (909) 967 30 30" type="phone" name="phone"}}
@@ -21,7 +21,7 @@ export default `
               {{>input label="Пароль" value="12345678" type="password" name="password"}}
             </div>
              <div class="form-group">
-              {{>input label="Пароль еще раз" value="12345678" type="password"}}
+              {{>input label="Пароль еще раз" value="12345678" type="repeat_password"}}
             </div>
             
             <div class="form-actions">
