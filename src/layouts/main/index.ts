@@ -15,3 +15,4 @@ export function MainLayout(props: MainLayoutProps) {
   const compiledTemplate = Handlebars.compile(template);
   return compiledTemplate(props);
 }
+

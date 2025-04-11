@@ -26,3 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   root.innerHTML = ProfileView();
 });
+

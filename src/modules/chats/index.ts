@@ -24,3 +24,4 @@ export function ChatsComponent(props: ChatsComponentProps) {
   const compiledTemplate = Handlebars.compile(template);
   return compiledTemplate(props);
 }
+

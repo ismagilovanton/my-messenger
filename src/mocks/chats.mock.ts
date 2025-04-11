@@ -40,3 +40,4 @@ export const chatsMock: Array<Chat> = [
     count: 5,
   },
 ];
+

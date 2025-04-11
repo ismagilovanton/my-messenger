@@ -12,3 +12,4 @@ export function SettingsLayout(props: SettingsPageProps): string {
   const compiledTemplate = Handlebars.compile(template);
   return compiledTemplate(props);
 }
+

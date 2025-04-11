@@ -22,3 +22,4 @@ export function ChatComponent(chat: Chat) {
 
   return compiledTemplate(chat);
 }
+
