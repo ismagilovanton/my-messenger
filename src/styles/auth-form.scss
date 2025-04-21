@@ -1,0 +1,47 @@
+@import '../static/variables.scss';
+
+.auth-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  justify-content: center;
+  border-radius: 12px;
+  background: $accent;
+
+  &__title {
+    font-weight: 500;
+    text-align: center;
+  }
+
+  &__form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .form {
+      &-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 47px;
+        gap: 14px;
+        width: 100%;
+
+        a {
+          color: $main;
+          font-weight: 500;
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}

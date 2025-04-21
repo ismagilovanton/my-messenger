@@ -1,0 +1,78 @@
+.profile {
+  width: 510px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: $accent;
+  padding: 30px;
+  border-radius: 12px;
+
+  &__name {
+    font-weight: 600;
+  }
+
+  &__form {
+    width: 100%;
+
+
+    &--item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0px;
+      border-bottom: 1px solid $gray;
+      width: 100%;
+
+      .label {
+        font-weight: 600;
+        color: $main;
+      }
+
+      .value {
+        color: $lightGray;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    background: $gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__actions {
+    width: 100%;
+    margin-top: auto;
+    color: $gray;
+    cursor: pointer;
+
+    &--item {
+      padding: 10px 0px;
+      color: $gray;
+
+      a {
+        color: $danger;
+      }
+
+      &.danger {
+        color: $danger;
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+.chat {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background-color: $background;
+  border-radius: 8px;
+
+  &:hover {
+    background: rgba(255, 112, 102, 10%);
+  }
+
+  &__avatar {
+    min-width: 47px;
+    min-height: 47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 47px;
+    height: 47px;
+    border-radius: 100%;
+    background: $lightGray;
+   
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+
+    &--title {
+      display: flex;
+      justify-content: space-between;
+
+      .name {
+        font-weight: bold;
+        font-size: 13px;
+        color: $main;
+      }
+
+      .date {
+        color: $gray;
+        font-size: 12px;
+      }
+    }
+
+    &--content {
+      display: flex;
+      justify-content: space-between;
+
+      .message {
+        color: $lightGray;
+        font-size: 12px;
+      }
+
+      .count {
+        background: $main;
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        font-size: 10px;
+      }
+    }
+  }
+}
