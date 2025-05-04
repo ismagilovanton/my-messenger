@@ -54,3 +54,4 @@ export class ProfileView extends Block {
     return template;
   }
 }
+

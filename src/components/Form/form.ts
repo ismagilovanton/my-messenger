@@ -57,3 +57,4 @@ export class Form extends Block {
     return template;
   }
 }
+

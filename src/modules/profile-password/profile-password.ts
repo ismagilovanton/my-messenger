@@ -78,3 +78,4 @@ export class ProfilePassword extends Block {
     return template;
   }
 }
+

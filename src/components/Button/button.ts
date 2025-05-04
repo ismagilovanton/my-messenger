@@ -27,3 +27,4 @@ export class Button extends Block {
     return template;
   }
 }
+

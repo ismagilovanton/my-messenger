@@ -16,3 +16,4 @@ export class ProfileController {
     this.service.updateProfile(profile);
   }
 }
+

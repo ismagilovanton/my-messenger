@@ -3,20 +3,24 @@ import template from './input.tmpl';
 import './input.scss';
 import { ValidationRule } from '../../framework/Validation';
 
+
+interface Props { 
+  [key: string]: unknown;
+  type: string;
+  placeholder?: string;
+  value?: string;
+  name?: string;
+  required?: string;
+  label?: string;
+  error?: string;
+  validationRules?: ValidationRule[];
+}
+
 interface InputComponentProps {
   attributes: {
     class: string;
   };
-  props: {
-    type: string;
-    placeholder?: string;
-    value?: string;
-    name?: string;
-    required?: string;
-    label?: string;
-    error?: string;
-    validationRules?: ValidationRule[];
-  };
+  props: Props;
   events?: {
     blur?: (e: Event) => void;
   };
@@ -39,28 +43,25 @@ export class InputComponent extends Block {
   }
 
   private _validate(value: string): boolean {
-    const { props } = this._props as InputComponentProps;
-    const { validationRules = [] } = props;
+    
+    const { validationRules = [] } = (this._props as Props);
 
     this._errors = validationRules
       .map((rule: ValidationRule) => rule(value))
-      .filter((error): error is string => error !== null);
+      .filter((error: string | null): error is string => error !== null);
 
     const isValid = this._errors.length === 0;
 
     this.setProps({
-      props: {
-        ...props,
-        error: this._errors[0],
-        value: value,
-      },
+      error: this._errors[0],
+      value: value,
     });
 
     return isValid;
   }
 
   addEvents(): void {
-    const { events } = this._props as InputComponentProps;
+    const { events } = this._events as InputComponentProps;
     const input = this.element?.querySelector<HTMLInputElement>('.field');
 
     input?.addEventListener('blur', (e: Event) => {
@@ -73,3 +74,4 @@ export class InputComponent extends Block {
     });
   }
 }
+

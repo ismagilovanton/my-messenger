@@ -25,3 +25,4 @@ export  class ButtonIcon extends Block {
     return template;
   }
 }
+

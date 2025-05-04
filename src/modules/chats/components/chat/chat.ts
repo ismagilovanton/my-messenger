@@ -29,3 +29,4 @@ export class ChatComponent extends Block {
     return template;
   }
 }
+

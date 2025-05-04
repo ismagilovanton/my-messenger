@@ -21,3 +21,4 @@ export class SettingsLayout extends Block {
     return template;
   }
 }
+

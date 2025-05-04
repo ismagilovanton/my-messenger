@@ -22,3 +22,4 @@ export class ErrorCard extends Block {
     return template;
   }
 }
+

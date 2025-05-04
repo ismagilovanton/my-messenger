@@ -15,3 +15,4 @@ export class Sidebar extends Block {
     return template;
   }
 }
+

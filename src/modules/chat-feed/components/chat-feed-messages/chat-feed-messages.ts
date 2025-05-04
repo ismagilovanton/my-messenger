@@ -25,3 +25,4 @@ export class ChatFeedMessages extends Block {
     return template;
   }
 }
+

@@ -160,3 +160,4 @@ export class ProfileData extends Block {
     return template;
   }
 }
+

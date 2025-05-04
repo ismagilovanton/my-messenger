@@ -15,3 +15,4 @@ export class ChatController {
     this.service.loadChats();
   }
 }
+
