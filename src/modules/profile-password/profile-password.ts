@@ -5,8 +5,8 @@ import { InputComponent } from '../../components/Input/input';
 import { Form } from '../../components/Form/form';
 
 import template from './profile-password.tmpl';
-import { ProfilePasswordService } from '../../services/profile/profile-password.service';
 import { ProfilePasswordController } from '../../controllers/profile/profile-password.controller';
+import { formDataToObject } from '../../utils/formdata.util';
 
 interface ProfilePasswordProps { 
   children: {
@@ -17,8 +17,7 @@ interface ProfilePasswordProps {
 export class ProfilePassword extends Block {
   constructor(props: ProfilePasswordProps) {
 
-    const service = new ProfilePasswordService();
-    const controller = new ProfilePasswordController(service);
+    const controller = new ProfilePasswordController();
 
     const formPasswordInputs = [
       { label: 'Новый пароль', error: '', value: '', type: 'password', name: 'newPassword' },
@@ -56,8 +55,13 @@ export class ProfilePassword extends Block {
         inputs: inputsPassword,
       },
       events: {
-        submit: (e, data) => {
-          controller.updatePassword(data);
+        submit: (e) => {
+          const target = e.currentTarget as HTMLFormElement | null;
+          if (target) {
+            const formData = new FormData(target);
+            const data = formDataToObject(formData);           
+            controller.updatePassword(data);
+          }
         },
       },
     });

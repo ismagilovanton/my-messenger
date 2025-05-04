@@ -1,4 +1,4 @@
-import { Chat } from '../modules/chats';
+import { Chat } from '../services/home/chats/chat.service';
 
 const dateConfig: Intl.DateTimeFormatOptions = {
   year: 'numeric',

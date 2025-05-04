@@ -1,6 +1,7 @@
 
 export interface SignInData {
-
+  login: string,
+  password: string
 }
 
 export class SignInService {
@@ -10,7 +11,7 @@ export class SignInService {
     password: '',
   };
 
-  signIn(newLoginData: SignInData) {
+  signIn(newLoginData: Record<string, unknown>) {
     this.signInInData = { ...this.signInInData, ...newLoginData };
     console.log(this.signInInData);
   }

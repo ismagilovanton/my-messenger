@@ -6,9 +6,10 @@ import { Form } from '../../components/Form/form.ts';
 import { email, login, name, password, phone } from '../../framework/Validation.ts';
 
 import template from './signup.tmpl';
+import { formDataToObject } from '../../utils/formdata.util.ts';
 
 interface SignUpProps {
-  children: {
+  children?: {
     form: Form
   }
 }
@@ -22,7 +23,7 @@ export class SignUpView extends Block {
       ...props,
     });
 
-    this.controller = new SignUpController(this);
+    this.controller = new SignUpController();
 
     const formInputs = [
       {
@@ -86,8 +87,13 @@ export class SignUpView extends Block {
         inputs,
       },
       events: {
-        submit: (e, data) => {
-          this.controller.signUp(data);
+        submit: (e) => {
+          const target = e.currentTarget as HTMLFormElement | null;
+          if (target) {
+            const formData = new FormData(target);
+            const data = formDataToObject(formData);           
+            this.controller.signUp(data);
+          }
         },
       },
     });

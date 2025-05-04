@@ -26,7 +26,7 @@ export class ProfileDataService {
     return this.profileData;
   }
 
-  updateProfile(profile: ChangeProfilePayload): void {
+  updateProfile(profile: Record<string, unknown>) {
     this.profileData = { ...this.profileData, ...profile };
     console.log(this.profileData);
   }

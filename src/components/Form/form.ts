@@ -16,7 +16,7 @@ interface FormProps {
     inputs: Array<Block>
   }
   events: {
-    submit: (e: Event, data: Record<string, string>) => void
+    submit: (e: Event) => void
   }
 }
 
@@ -29,10 +29,9 @@ export class Form extends Block {
   private _onSubmit(e: Event) {
     e.preventDefault();
   
-    const { inputs } = this._items; // Use this.props instead of this._props
+    const { inputs } = this._items; 
     
     let isFormValid = true;
-    const formData: Record<string, string> = {};
   
     // Validate each input
     inputs.forEach((input: InputComponent) => {
@@ -42,19 +41,15 @@ export class Form extends Block {
           isFormValid = false;
         }
       }
-      // Collect form data
-      const inputElement = input.element?.getElementsByClassName('field')[0];      
-      formData[inputElement.name] = inputElement.value;
     });
   
     // If the form is valid, trigger the submit event
     if (isFormValid && this._events.submit) {
-      this._events.submit(e, formData);
+      this._events.submit(e);
     }
   }
 
   override addEvents() {
-    // super.addEvents();
     this.element?.addEventListener('submit', this._onSubmit.bind(this));
   }
 

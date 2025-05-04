@@ -1,24 +1,18 @@
-import { ProfileService } from '../../services/profile/profile-data.service';
-import { ProfileView } from '../../views/profile/profile';
+import { ProfileDataService } from '../../services/profile/profile-data.service';
 
 export class ProfileController {
-  private service: ProfileService;
+  private service: ProfileDataService;
 
-  private view: ProfileView;
 
-  constructor(
-    service: ProfileService,
-    view: ProfileView,
-  ) {
-    this.service = service;
-    this.view = view;
+  constructor() {
+    this.service = new ProfileDataService();
   }
 
   loadProfile() {
     return this.service.getProfile();
   }
 
-  updateProfile(profile: Record<string, any>) {
+  updateProfile(profile: Record<string, unknown>) {
     this.service.updateProfile(profile);
   }
 }

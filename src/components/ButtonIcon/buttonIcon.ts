@@ -3,9 +3,9 @@ import template from './buttonIcon.tmpl';
 
 interface ButtonIconProps {
   attributes?: { 
-    class: 'button-text' | 'button-main';
-    id: string;
-    name: string;
+    class: string;
+    id?: string;
+    name?: string;
     type: string
   };
   props: {

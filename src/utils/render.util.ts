@@ -4,7 +4,10 @@ export function renderDOM(query: string, component: Block): Element | null {
   const root = document.querySelector(query);
 
   if (root) {    
-    root.appendChild(component.getContent());
+    const content = component.getContent();
+    if (content) {
+      root.appendChild(content);
+    }
     component.dispatchComponentDidMount();
   }
 

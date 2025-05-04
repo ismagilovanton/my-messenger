@@ -10,6 +10,7 @@ import { Form } from '../../../../components/Form/form';
 import ArrowRight from '../../../../../public/icons/arrow-right.svg';
 import Clip from '../../../../../public/icons/clip.svg';
 import { required } from '../../../../framework/Validation';
+import { formDataToObject } from '../../../../utils/formdata.util';
 export class ChatFeedInput extends Block {
   
   constructor() {
@@ -63,8 +64,13 @@ export class ChatFeedInput extends Block {
         submit: send,
       },
       events: {
-        submit: (e, data) => {
-          console.log('Submit form', data);
+        submit: (e) => {
+          const target = e.currentTarget as HTMLFormElement | null;
+          if (target) {
+            const formData = new FormData(target);
+            const data = formDataToObject(formData);           
+            console.log('Submit form', data);
+          }
         },
       },
     });

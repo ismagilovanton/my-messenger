@@ -1,19 +1,13 @@
-import { SignInData, SignInService } from '../../services/auth/signin.service';
-import { SignInView } from '../../views/signin/signin';
+import { SignInService } from '../../services/auth/signin.service';
 
 export class SignInController {
   private service: SignInService;
 
-  private view: SignInView;
-
-  constructor(
-    view: SignInView,
-  ) {
+  constructor() {
     this.service = new SignInService();
-    this.view = view;
   }
 
-  signIn(loginData: SignInData) {
+  signIn(loginData: Record<string, unknown>) {
     this.service.signIn(loginData);
   }
 

@@ -4,7 +4,7 @@ import template from './chat-feed-header.tmpl';
 import './chat-feed-header.scss';
 
 interface ChatHeaderProps {
-  props: {
+  props?: {
     name: string
   }
 }

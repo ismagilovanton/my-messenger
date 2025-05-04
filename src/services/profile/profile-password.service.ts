@@ -5,7 +5,7 @@ export interface ChangePasswordPayload {
 }
 
 export class ProfilePasswordService {
-  updatePassword(payload: ChangePasswordPayload): void {
+  updatePassword(payload: Record<string, unknown>): void {
     console.log(payload);
   }
 }

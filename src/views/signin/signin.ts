@@ -5,9 +5,10 @@ import { InputComponent } from '../../components/Input/input.ts';
 import { Form } from '../../components/Form/form.ts';
 import { Button } from '../../components/Button/button';
 import template from './signin.tmpl';
+import { formDataToObject } from '../../utils/formdata.util.ts';
 
 interface SignInProps {
-  children: {
+  children?: {
     form: Form
   }
 }
@@ -18,7 +19,7 @@ export class SignInView extends Block {
     
     super('div', props);
 
-    this.controller = new SignInController(this);
+    this.controller = new SignInController();
 
     const formInputs = [
       { 
@@ -72,8 +73,13 @@ export class SignInView extends Block {
         inputs,
       },
       events: {
-        submit: (e, data) => {
-          this.controller.signIn(data);
+        submit: (e) => {
+          const target = e.currentTarget as HTMLFormElement | null;
+          if (target) {
+            const formData = new FormData(target);
+            const data = formDataToObject(formData);            
+            this.controller.signIn(data);
+          }
         },
       },
     });
