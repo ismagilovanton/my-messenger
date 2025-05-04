@@ -1,0 +1,35 @@
+.button {
+  &-main {
+    background: #ff7066;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    outline: none;
+    padding: 12px;
+    width: 100%;
+  }
+
+  &-text {
+    background: none;
+    border: none;
+    outline: none;
+
+    &:hover {
+      background-color: $selection;
+    }
+  }
+
+  &-inline {
+    background: none;
+    border: none;
+    color: $gray;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    padding: 0;
+
+    &:hover {
+      color: $main;
+    }
+  }
+}

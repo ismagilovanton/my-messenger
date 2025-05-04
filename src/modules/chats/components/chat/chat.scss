@@ -1,44 +1,43 @@
 .chat {
-  display: flex;
-  width: 100%;
-  gap: 10px;
-  padding: 10px 12px;
-  cursor: pointer;
   background-color: $background;
   border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  width: 100%;
 
   &:hover {
-    background: rgba(255, 112, 102, 10%);
+    background: rgb(255 112 102 / 10%);
   }
 
   &__avatar {
-    min-width: 47px;
-    min-height: 47px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    width: 47px;
-    height: 47px;
+    background: $light-gray;
     border-radius: 100%;
-    background: $lightGray;
-   
+    display: flex;
+    height: 47px;
+    justify-content: center;
+    min-height: 47px;
+    min-width: 47px;
+    width: 47px;
   }
 
   &__info {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
-    width: 100%;
     gap: 4px;
+    justify-content: space-between;
+    width: 100%;
 
     &--title {
       display: flex;
       justify-content: space-between;
 
       .name {
-        font-weight: bold;
-        font-size: 13px;
         color: $main;
+        font-size: 13px;
+        font-weight: bold;
       }
 
       .date {
@@ -52,21 +51,21 @@
       justify-content: space-between;
 
       .message {
-        color: $lightGray;
+        color: $light-gray;
         font-size: 12px;
       }
 
       .count {
+        align-items: center;
         background: $main;
         border-radius: 100%;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         color: white;
-        font-weight: bold;
+        display: flex;
         font-size: 10px;
+        font-weight: bold;
+        height: 20px;
+        justify-content: center;
+        width: 20px;
       }
     }
   }

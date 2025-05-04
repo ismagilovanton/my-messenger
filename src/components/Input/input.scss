@@ -1,0 +1,98 @@
+.input-form {
+  padding: 15px 0 0;
+  position: relative;
+
+  .error {
+    color: $danger;
+    font-size: 8px;
+    letter-spacing: 0%;
+    line-height: 8px;
+  }
+
+  .label {
+    color: $main;
+    display: block;
+    font-size: 9px;
+    position: absolute;
+    top: 0;
+    transition: 0.25s;
+  }
+
+  .field {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid $gray;
+    color: $white;
+    font-family: inherit;
+    font-size: 13px;
+    outline: 0;
+    padding: 8px 0;
+    width: 100%;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:placeholder-shown ~ .label {
+      cursor: text;
+      font-size: 13px;
+      top: 20px;
+    }
+
+    &:required,
+    &:invalid {
+      box-shadow: none;
+    }
+
+    &:focus {
+      ~ .label {
+        display: block;
+        font-size: 9px;
+        position: absolute;
+        top: 0;
+        transition: 0.25s;
+      }
+    }
+  }
+}
+
+.input-inline {
+  border-bottom: 1px solid $gray;
+
+  // flex-direction: row-reverse;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  // display: flex;
+  // justify-content: space-between;
+  padding: 10px 0;
+  row-gap: 10px;
+  width: 100%;
+
+  .error {
+    color: $danger;
+    font-size: 14px;
+    grid-column: span 2;
+    order: 3;
+  }
+
+  .label {
+    color: $main;
+    font-weight: 600;
+    order: 1;
+  }
+
+  .field {
+    background: none;
+    border: none;
+    color: $light-gray;
+    font-size: 14px;
+    order: 2;
+    outline: none;
+    text-align: end;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

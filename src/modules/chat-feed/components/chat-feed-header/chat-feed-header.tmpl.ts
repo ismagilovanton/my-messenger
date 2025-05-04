@@ -1,5 +1,5 @@
 
-import DotsIcon from '../../../../../public/icons/dots.svg'
+import DotsIcon from '../../../../../public/icons/dots.svg';
 
 export default `
 
@@ -9,7 +9,7 @@ export default `
     <div class="header__info">
         <div class="header__info--avatar"></div>
 
-        <div class="header__info--name">Данил</div>
+        <div class="header__info--name">{{{name}}}</div>
     
     </div>
     
@@ -25,4 +25,4 @@ export default `
 
 </div>
 
-`
+`;

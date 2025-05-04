@@ -1,36 +1,49 @@
 .new-message {
-  display: flex;
   align-items: center;
-  gap: 10px;
   border-top: 1px solid $gray;
+  display: flex;
+  gap: 10px;
   padding-top: 10px;
 
-  &__input {
+  .field {
     background: $accent;
-    outline: none;
-    padding: 10px 20px;
     border: none;
-    width: 100%;
     border-radius: 30px;
     color: white;
+    outline: none;
+    padding: 10px 20px;
+    width: 100%;
 
     &::placeholder {
-      color: $lightGray;
+      color: $light-gray;
+    }
+  }
+
+  &__input {
+    width: 100%;
+
+    &:has(.error) {
+      .field {
+        outline: 1px solid $danger;
+      }
+
+      .error {
+        display: none;
+      }
     }
   }
 
   &__action {
-    min-width: 28px;
-    min-height: 28px;
+    align-items: center;
+    background: $main;
+    border: none;
+    border-radius: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
     height: 28px;
-    background: $main;
-    border-radius: 100%;
-    border: none;
+    justify-content: center;
+    min-height: 28px;
+    min-width: 28px;
+    width: 28px;
   }
-
 }
