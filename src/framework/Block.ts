@@ -268,7 +268,7 @@ export default class Block {
     return true;
   }
 
-  setProps(nextProps: PropsWithChildren) {
+  setProps(nextProps: Record<string, unknown>) {
     if (!nextProps) return;
 
     const oldProps: Record<string, unknown> = { ...this._props };    
