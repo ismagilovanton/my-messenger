@@ -7,6 +7,9 @@ export interface PropsWithChildren {
   items?: Record<string, Block[]>;
   events?: Record<string, (e: Event) => void>;
   attributes?: Record<string, string>;
+  settings?: {
+    withInternalID?: boolean;
+  };
 }
 
 export default class Block {
@@ -28,8 +31,6 @@ export default class Block {
   private _id = Math.floor(100000 + +Math.random() * 9000000);
 
   private _element: HTMLElement | null = null;
-
-  private _setUpdate = false;
   
   protected _items: Record<string, any[]> = {};
 
@@ -59,10 +60,10 @@ export default class Block {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-  private _getChildrenPropsAndProps(propsWithChildren) {
-    const props = {};
-    const children = {};
-    const items = {};
+  private _getChildrenPropsAndProps(propsWithChildren: PropsWithChildren) {
+    const props: Record<string, unknown> = {};
+    const children: Record<string, Block> = {};
+    const items: Record<string, Block[]> = {};
 
     Object.entries(propsWithChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -97,17 +98,18 @@ export default class Block {
     this.componentDidMount();
   }
 
-  private _componentDidUpdate(oldProps, newProps) {
+  private _componentDidUpdate(oldProps: Record<string, unknown>, newProps: Record<string, unknown>) {
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
     if (shouldUpdate) {
-      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+      if (this._eventBus) {
+        this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+      }
     }
   }
 
-  private _makePropsProxy(props) {
-    const self = this;
+  private _makePropsProxy(props: Record<string, unknown>) {
     return new Proxy(props, {
-      get(target, prop) {
+      get: (target, prop) => {
         if (typeof prop === 'string' && prop.startsWith('_')) {
           throw new Error('Отказано в доступе к приватному свойству');
         }
@@ -115,13 +117,15 @@ export default class Block {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target, prop, value) {
+      set: (target, prop, value) =>{
         if (typeof prop === 'string' && prop.startsWith('_')) {
           throw new Error('Отказано в доступе к приватному свойству');
         }
         const oldProps = { ...target };
         target[prop] = value;
-        self._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+        if (this._eventBus) {
+          this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+        }
         return true;
       },
       deleteProperty() {
@@ -130,11 +134,11 @@ export default class Block {
     });
   }
 
-  private _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string): HTMLElement {
     const element =  document.createElement(tagName);
 
-    if (this._props.settings?.withInternalID) {
-      element.setAttribute('data-id', this._id);
+    if (this._props?.settings?.withInternalID) {
+      element.setAttribute('data-id', this._id.toString());
     }
 
     return element;
@@ -142,10 +146,10 @@ export default class Block {
 
   _render() {
   
-    const propsAndStubs = { ...this._props };
+    const propsAndStubs: Record<string, unknown> = { ...this._props };
   
     // Updated listTmpIds to handle multiple ids per list
-    const listTmpIds: Record<string, string[]> = {};
+    const listTmpIds: Record<string, string> = {};
   
     // Handle single children
     Object.entries(this._children).forEach(([key, child]) => {
@@ -232,17 +236,21 @@ export default class Block {
   init() {
     this._createResources();
     // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    if (this._eventBus) {
+      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
   }
 
   componentDidMount() {}
 
   dispatchComponentDidMount() {
-    this._eventBus.emit(Block.EVENTS.FLOW_CDM);
+    if (this._eventBus) {
+      this._eventBus.emit(Block.EVENTS.FLOW_CDM);
+    }
   }
 
-  componentDidUpdate(oldProps, newProps) {
-    // console.log({ oldProps, newProps });
+  componentDidUpdate(oldProps: Record<string, unknown>, newProps: Record<string, unknown>) {
+    console.log({ oldProps, newProps });
     return true;
   }
 
@@ -255,7 +263,9 @@ export default class Block {
   
     this._props = this._makePropsProxy({ ...this._props, ...nextProps });
   
-    this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this._props);
+    if (this._eventBus) {
+      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this._props);
+    }
   }
 
   setChildren(nextChildren: Record<string, any>) {
@@ -267,7 +277,9 @@ export default class Block {
     this._children = this._makePropsProxy({ ...this._children, ...nextChildren });
 
     // Emit the FLOW_CDU event to trigger re-rendering
-    this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldChildren, this._children);
+    if (this._eventBus) {
+      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldChildren, this._children);
+    }
   }
 
   render() {
@@ -280,11 +292,17 @@ export default class Block {
 
   show() {
     if (this._element) {
-      this.getContent().style.display = 'block';
+      const content = this.getContent();
+      if (content) {
+        content.style.display = 'block';
+      }
     }
   }
 
   hide() {
-    this.getContent().style.display = 'none';
+    const content = this.getContent();
+    if (content) {
+      content.style.display = 'none';
+    }
   }
 }
