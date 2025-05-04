@@ -1,13 +1,13 @@
-import { ChangePasswordPayload, ProfilePasswordService } from '../../services/profile/profile-password.service';
+import { ProfilePasswordService } from '../../services/profile/profile-password.service';
 
 export class ProfilePasswordController {
   private service: ProfilePasswordService;
 
-  constructor(service: ProfilePasswordService) {
-    this.service = service;
+  constructor() {
+    this.service = new ProfilePasswordService();
   }
 
-  updatePassword(password: ChangePasswordPayload) {
+  updatePassword(password: Record<string, unknown>) {
     this.service.updatePassword(password);
 
   }

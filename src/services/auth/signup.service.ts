@@ -22,7 +22,7 @@ export class SignUpService {
     repeat_password: '',
   };
 
-  signUp(newSignUpData: SignUpData) {
+  signUp(newSignUpData: Record<string, unknown>) {
     this.signUpData = { ...this.signUpData, ...newSignUpData };
     console.log(this.signUpData);
   }

@@ -5,7 +5,6 @@ import './chats.scss';
 import template from './chats.tmpl';
 import { chatsMock } from '../../mocks/chats.mock';
 import { ChatController } from '../../controllers/home/chats/chat.controller';
-import { ChatService } from '../../services/home/chats/chat.service';
 
 interface ChatsListProps {
   items?: {
@@ -20,10 +19,9 @@ export class ChatsList extends Block {
 
   private controller: ChatController;
 
-  private service: ChatService;
-
   constructor(props: ChatsListProps) {
-    const chats = chatsMock.map(chatMock => new ChatComponent({ props: chatMock, attributes: { 'data-id':chatMock.id } }));
+    const chats = chatsMock.map(chatMock => 
+      new ChatComponent({ props: chatMock, attributes: { 'data-id': chatMock.id.toString() } }));
     
     super('ul', {
       ...props,
@@ -32,15 +30,17 @@ export class ChatsList extends Block {
       },
       events: {
         click: (e: Event) => {
-          const id = e.currentTarget?.getAttribute('data-id');
-          
-          this.controller.selectChat(id);
+          const target = e.currentTarget as HTMLElement | null;
+          const id = Number(target?.getAttribute('data-id'));
+      
+          if (id) {
+            this.controller.selectChat(id);
+          }
         },
       },
     });
 
-    this.service = new ChatService();
-    this.controller = new ChatController(this);
+    this.controller = new ChatController();
 
   }
 

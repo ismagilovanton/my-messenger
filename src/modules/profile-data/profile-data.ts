@@ -2,7 +2,6 @@ import Block from '../../framework/Block';
 import { Button } from '../../components/Button/button';
 import { InputComponent } from '../../components/Input/input';
 import { Form } from '../../components/Form/form';
-import { ProfileDataService } from '../../services/profile/profile-data.service';
 
 import template from './profile-data.tmpl';
 import {
@@ -14,9 +13,10 @@ import {
 } from '../../framework/Validation';
 
 import { ProfileDataController } from '../../controllers/profile/profile-data.controller';
+import { formDataToObject } from '../../utils/formdata.util';
 
 interface ProfileDataProps {
-  children: {
+  children?: {
     form: Form;
   };
 }
@@ -24,15 +24,13 @@ interface ProfileDataProps {
 export class ProfileData extends Block {
   private controller: ProfileDataController;
 
-  private service: ProfileDataService;
 
   constructor(props: ProfileDataProps) {
-    const service = new ProfileDataService();
-    const controller = new ProfileDataController(service);
+    const controller = new ProfileDataController();
 
     const profile = controller.loadProfile();
 
-    const formDataInputs = [
+    const formInputs = [
       {
         label: 'Почта',
         error: '',
@@ -107,7 +105,7 @@ export class ProfileData extends Block {
       },
     ];
 
-    const inputsData = formDataInputs.map((el) => {
+    const inputsData = formInputs.map((el) => {
       return new InputComponent({
         attributes: { class: 'input-inline' },
         props: el,
@@ -126,7 +124,7 @@ export class ProfileData extends Block {
       },
     });
 
-    const formData = new Form({
+    const form = new Form({
       attributes: {
         class: 'auth-wrapper__form',
         action: '/',
@@ -138,8 +136,13 @@ export class ProfileData extends Block {
         inputs: inputsData,
       },
       events: {
-        submit: (e, data) => {
-          this.controller.updateProfile(data);
+        submit: (e) => {
+          const target = e.currentTarget as HTMLFormElement | null;
+          if (target) {
+            const formData = new FormData(target);
+            const data = formDataToObject(formData);           
+            this.controller.updateProfile(data);
+          }
         },
       },
     });
@@ -147,11 +150,10 @@ export class ProfileData extends Block {
     super('div', {
       ...props,
       children: {
-        form: formData,
+        form: form,
       },
     });
     this.controller = controller;
-    this.service = service;
   }
 
   override render(): string {

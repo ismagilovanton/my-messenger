@@ -1,18 +1,18 @@
 
-import { ChangeProfilePayload, ProfileDataService } from '../../services/profile/profile-data.service';
+import { ProfileDataService } from '../../services/profile/profile-data.service';
 
 export class ProfileDataController {
   private service: ProfileDataService;
   
-  constructor(service: ProfileDataService) {
-    this.service = service;
+  constructor() {
+    this.service = new ProfileDataService();
   }
   
   loadProfile() {
     return this.service.getProfile();
   }
   
-  updateProfile(profile: ChangeProfilePayload) {
+  updateProfile(profile: Record<string, unknown>) {
     this.service.updateProfile(profile);
   }
 }

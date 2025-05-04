@@ -60,27 +60,27 @@ export default class Block {
     this._eventBus.emit(Block.EVENTS.INIT);
   }
 
-  private _getChildrenPropsAndProps(propsWithChildren: PropsWithChildren) {
-    const props: Record<string, unknown> = {};
-    const children: Record<string, Block> = {};
-    const items: Record<string, Block[]> = {};
+  // private _getChildrenPropsAndProps(propsWithChildren: PropsWithChildren) {
+  //   const props: Record<string, unknown> = {};
+  //   const children: Record<string, Block> = {};
+  //   const items: Record<string, Block[]> = {};
 
-    Object.entries(propsWithChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
-        children[key] = value;
-      } else if (Array.isArray(value)) {
-        items[key] = value;
-      } else {
-        props[key] = value;
-      }
-    });
+  //   Object.entries(propsWithChildren).forEach(([key, value]) => {
+  //     if (value instanceof Block) {
+  //       children[key] = value;
+  //     } else if (Array.isArray(value)) {
+  //       items[key] = value;
+  //     } else {
+  //       props[key] = value;
+  //     }
+  //   });
 
-    return {
-      props,
-      children,
-      items,
-    };
-  }
+  //   return {
+  //     props,
+  //     children,
+  //     items,
+  //   };
+  // }
 
   private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -98,12 +98,11 @@ export default class Block {
     this.componentDidMount();
   }
 
-  private _componentDidUpdate(oldProps: Record<string, unknown>, newProps: Record<string, unknown>) {
+  private _componentDidUpdate(...args: unknown[]): void {
+    const [oldProps, newProps] = args as [Record<string, unknown>, Record<string, unknown>];
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
     if (shouldUpdate) {
-      if (this._eventBus) {
-        this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
-      }
+      this._eventBus?.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
@@ -114,6 +113,10 @@ export default class Block {
           throw new Error('Отказано в доступе к приватному свойству');
         }
 
+        if (typeof prop === 'symbol') {
+          return undefined; // Игнорируем символы
+        }
+
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
@@ -121,7 +124,12 @@ export default class Block {
         if (typeof prop === 'string' && prop.startsWith('_')) {
           throw new Error('Отказано в доступе к приватному свойству');
         }
-        const oldProps = { ...target };
+
+        if (typeof prop === 'symbol') {
+          return false; // Игнорируем символы
+        }
+
+        const oldProps: Record<string, unknown> = { ...target };
         target[prop] = value;
         if (this._eventBus) {
           this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
@@ -134,7 +142,7 @@ export default class Block {
     });
   }
 
-  private _createDocumentElement(tagName: string): HTMLElement {
+  private _createDocumentElement(tagName: string) {
     const element =  document.createElement(tagName);
 
     if (this._props?.settings?.withInternalID) {
@@ -165,7 +173,7 @@ export default class Block {
     });
   
   
-    const fragment = this._createDocumentElement('template');
+    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
   
   
@@ -190,7 +198,10 @@ export default class Block {
       if (stub) {
         childList.forEach((item) => {
           if (item instanceof Block) {
-            stub.parentNode?.insertBefore(item.getContent(), stub);
+            const content = item.getContent();
+            if (content) {
+              stub.parentNode?.insertBefore(content, stub);
+            }
           } else {
             stub.parentNode?.insertBefore(document.createTextNode(String(item)), stub);
           }
@@ -249,7 +260,10 @@ export default class Block {
     }
   }
 
-  componentDidUpdate(oldProps: Record<string, unknown>, newProps: Record<string, unknown>) {
+  componentDidUpdate(
+    oldProps: Record<string, unknown>, 
+    newProps: Record<string, unknown>,
+  ) {
     console.log({ oldProps, newProps });
     return true;
   }
@@ -257,9 +271,7 @@ export default class Block {
   setProps(nextProps: PropsWithChildren) {
     if (!nextProps) return;
 
-    const oldProps = { ...this._props };
-    // console.log('setProps', oldProps, nextProps);
-    
+    const oldProps: Record<string, unknown> = { ...this._props };    
   
     this._props = this._makePropsProxy({ ...this._props, ...nextProps });
   

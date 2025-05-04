@@ -9,12 +9,12 @@ interface ButtonProps {
     class: 'button-text' | 'button-main' | 'button-inline';
     id: string;
     name: string;
-    type: string
+    type?: string
   };
   props: {
     text: string;
   },
-  events?: unknown
+  events?: Record<string, (e: Event) => void>
 }
 
 export class Button extends Block {

@@ -4,16 +4,20 @@ import template from './chat.tmpl';
 import './chat.scss';
 
 
-interface Chat {
+export interface Chat {
   id: number;
   name: string;
   date: string;
   message: string;
-  count: number
+  count: number;
+  [key: string]: unknown; // Add index signature to conform to Record<string, unknown>
 }
 
 interface ChatProps {
-  props: Chat
+  props: Chat,
+  attributes: {
+    'data-id': string
+  }
 }
 
 export class ChatComponent extends Block {
