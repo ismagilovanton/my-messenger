@@ -1,4 +1,4 @@
-import Block from "../framework/Block";
+import Block from '../framework/Block';
 
 export function renderDOM(query: string, component: Block): Element | null {
   const root = document.querySelector(query);

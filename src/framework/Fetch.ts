@@ -1,90 +1,90 @@
 const METHODS = {
-    GET: "GET",
-    PUT: "PUT",
-    POST: "POST",
-    DELETE: "DELETE",
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+  
+function queryStringify(data) {
+  if (typeof data !== 'object') {
+    throw new Error('Data must be object');
+  }
+  
+  const keys = Object.keys(data);
+  return keys.reduce((result, key, index) => {
+    return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
+  }, '?');
+}
+  
+export class HTTPTransport {
+  get = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: METHODS.GET },
+      options.timeout,
+    );
   };
   
-  function queryStringify(data) {
-    if (typeof data !== "object") {
-      throw new Error("Data must be object");
-    }
+  put = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: METHODS.PUT },
+      options.timeout,
+    );
+  };
   
-    const keys = Object.keys(data);
-    return keys.reduce((result, key, index) => {
-      return `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`;
-    }, "?");
-  }
+  post = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: METHODS.POST },
+      options.timeout,
+    );
+  };
   
-  class HTTPTransport {
-    get = (url, options = {}) => {
-      return this.request(
-        url,
-        { ...options, method: METHODS.GET },
-        options.timeout
-      );
-    };
+  delete = (url, options = {}) => {
+    return this.request(
+      url,
+      { ...options, method: METHODS.DELETE },
+      options.timeout,
+    );
+  };
   
-    put = (url, options = {}) => {
-      return this.request(
-        url,
-        { ...options, method: METHODS.PUT },
-        options.timeout
-      );
-    };
+  request = (url, options, timeout = 5000) => {
+    const { method, data, headers } = options;
   
-    post = (url, options = {}) => {
-      return this.request(
-        url,
-        { ...options, method: METHODS.POST },
-        options.timeout
-      );
-    };
+    return new Promise((resolve, reject) => {
+      if (!method) {
+        reject('No method');
+        return;
+      }
   
-    delete = (url, options = {}) => {
-      return this.request(
-        url,
-        { ...options, method: METHODS.DELETE },
-        options.timeout
-      );
-    };
+      const xhr = new XMLHttpRequest();
+      const isGet = method === METHODS.GET;
   
-    request = (url, options, timeout = 5000) => {
-      const { method, data, headers } = options;
+      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
   
-      return new Promise((resolve, reject) => {
-        if (!method) {
-          reject("No method");
-          return;
+      if (headers) {
+        for (const [key, value] of Object.entries(headers)) {
+          xhr.setRequestHeader(key, value);
         }
+      }
   
-        const xhr = new XMLHttpRequest();
-        const isGet = method === METHODS.GET;
+      xhr.onload = function () {
+        resolve(xhr);
+      };
   
-        xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.onabort = reject;
+      xhr.onerror = reject;
   
-        if (headers) {
-          for (const [key, value] of Object.entries(headers)) {
-            xhr.setRequestHeader(key, value);
-          }
-        }
+      xhr.timeout = timeout;
+      xhr.ontimeout = reject;
   
-        xhr.onload = function () {
-          resolve(xhr);
-        };
-  
-        xhr.onabort = reject;
-        xhr.onerror = reject;
-  
-        xhr.timeout = timeout;
-        xhr.ontimeout = reject;
-  
-        if (isGet || !data) {
-          xhr.send();
-        } else {
-          xhr.send(data);
-        }
-      });
-    };
-  }
+      if (isGet || !data) {
+        xhr.send();
+      } else {
+        xhr.send(data);
+      }
+    });
+  };
+}
   

@@ -1,5 +1,5 @@
 
-import DotsIcon from '../../../../../public/icons/dots.svg'
+import DotsIcon from '../../../../../public/icons/dots.svg';
 
 export default `
 
@@ -25,4 +25,4 @@ export default `
 
 </div>
 
-`
+`;

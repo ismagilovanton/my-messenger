@@ -268,7 +268,7 @@ export default class Block {
 
     // Emit the FLOW_CDU event to trigger re-rendering
     this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldChildren, this._children);
-}
+  }
 
   render() {
     return '';
