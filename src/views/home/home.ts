@@ -1,6 +1,5 @@
 import Block from '../../framework/Block';
 import template from './home.tmpl';
-import './home.scss';
 import { ChatsFeed } from '../../modules/chat-feed/chat-feed';
 
 

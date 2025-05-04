@@ -1,5 +1,4 @@
 import '../../static/style.scss';
-import './home.scss';
 
 import { MainLayout } from '../../layouts/main/main';
 import { HomeView } from './home';

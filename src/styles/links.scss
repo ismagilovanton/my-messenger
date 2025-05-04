@@ -1,22 +1,21 @@
 .links {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    list-style-type: none;
-    max-width: 450px;
-    padding: 0;
-    width: 100%;
-    
-    &__item {
-      background-color: $accent;
-      border-radius: 8px;
-      color: $lightGray;
-      padding: 10px;
-  
-      &:hover {
-        background: rgb(255 112 102 / 10%);
-        color: $main;
-      }
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style-type: none;
+  max-width: 450px;
+  padding: 0;
+  width: 100%;
+
+  &__item {
+    background-color: $accent;
+    border-radius: 8px;
+    color: $light-gray;
+    padding: 10px;
+
+    &:hover {
+      background: rgb(255 112 102 / 10%);
+      color: $main;
     }
   }
-  
+}

@@ -1,7 +1,5 @@
 import Block from '../../framework/Block';
 import template from './buttonIcon.tmpl';
-import './buttonIcon.scss';
-
 
 interface ButtonIconProps {
   attributes?: { 

@@ -16,12 +16,10 @@
       font-weight: 500;
       gap: 8px;
 
-
       img {
         width: 8px;
       }
     }
-
   }
 
   &__search {
@@ -29,7 +27,7 @@
     background: $background;
     border: none;
     border-radius: 8px;
-    color: $lightGray;
+    color: $light-gray;
     display: flex;
     font-weight: 500;
     gap: 4px;

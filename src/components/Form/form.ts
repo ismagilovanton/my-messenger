@@ -1,6 +1,5 @@
 import Block from '../../framework/Block';
 import template from './form.tmpl';
-import './form.scss';
 import { InputComponent } from '../Input/input';
 
 interface FormProps {

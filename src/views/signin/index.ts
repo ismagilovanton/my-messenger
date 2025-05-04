@@ -1,4 +1,3 @@
-import './signin.scss';
 import '../../static/style.scss';
 import '../../static/index.ts';
 
