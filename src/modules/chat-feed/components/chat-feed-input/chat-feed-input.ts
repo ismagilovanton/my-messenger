@@ -12,7 +12,7 @@ import Clip from '../../../../../public/icons/clip.svg';
 import { required } from '../../../../framework/Validation';
 export class ChatFeedInput extends Block {
   
-  constructor(props: any) {
+  constructor() {
 
     const input = new InputComponent({
       props: {
@@ -71,7 +71,6 @@ export class ChatFeedInput extends Block {
 
     super('div', 
       { 
-        ...props,
         children: {
           form,
         },

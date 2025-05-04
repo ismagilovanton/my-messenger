@@ -9,7 +9,7 @@ export default `
     <div class="header__info">
         <div class="header__info--avatar"></div>
 
-        <div class="header__info--name">Данил</div>
+        <div class="header__info--name">{{{name}}}</div>
     
     </div>
     

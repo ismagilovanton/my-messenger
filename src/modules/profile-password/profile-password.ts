@@ -8,9 +8,14 @@ import template from './profile-password.tmpl';
 import { ProfilePasswordService } from '../../services/profile/profile-password.service';
 import { ProfilePasswordController } from '../../controllers/profile/profile-password.controller';
 
+interface ProfilePasswordProps { 
+  children: {
+    form: Form;
+  };
+}
 
 export class ProfilePassword extends Block {
-  constructor(props: any) {
+  constructor(props: ProfilePasswordProps) {
 
     const service = new ProfilePasswordService();
     const controller = new ProfilePasswordController(service);

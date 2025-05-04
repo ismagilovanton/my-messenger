@@ -6,7 +6,7 @@ import { ValidationRule } from '../../framework/Validation';
 
 interface InputComponentProps {
   attributes: {
-    class: 'input-form' | 'input-inline',
+    class: string,
   };
   props: {
     type: string,
@@ -14,7 +14,7 @@ interface InputComponentProps {
     value?: string,
     name?: string,
     required?: string,
-    label: string,
+    label?: string,
     error?: string
     validationRules?: ValidationRule[],
   }

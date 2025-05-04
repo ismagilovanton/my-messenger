@@ -6,7 +6,7 @@ import { Placeholder } from '../../../../components/Placeholder/placeholder';
 
 export class ChatFeedMessages extends Block {
 
-  constructor(props: any) {
+  constructor() {
 
     const placeholder = new Placeholder({
       props: {
@@ -15,7 +15,6 @@ export class ChatFeedMessages extends Block {
     });
 
     super('div', {
-      ...props,
       children: {
         placeholder,
       },

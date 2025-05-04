@@ -7,11 +7,17 @@ import { email, login, name, password, phone } from '../../framework/Validation.
 
 import template from './signup.tmpl';
 
+interface SignUpProps {
+  children: {
+    form: Form
+  }
+}
+
 export class SignUpView extends Block {
 
   private controller: SignUpController;
 
-  constructor(props?: any) {
+  constructor(props?: SignUpProps) {
     super('div', {
       ...props,
     });

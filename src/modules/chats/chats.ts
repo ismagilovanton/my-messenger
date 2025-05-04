@@ -7,14 +7,22 @@ import { chatsMock } from '../../mocks/chats.mock';
 import { ChatController } from '../../controllers/home/chats/chat.controller';
 import { ChatService } from '../../services/home/chats/chat.service';
 
-
+interface ChatsListProps {
+  items?: {
+    chats: ChatComponent[];
+  };
+  events?: {
+    [key: string]: (e: Event) => void;
+  };
+  [key: string]: unknown; // Для дополнительных свойств, если они есть
+}
 export class ChatsList extends Block {
 
   private controller: ChatController;
 
   private service: ChatService;
 
-  constructor(props: any) {
+  constructor(props: ChatsListProps) {
     const chats = chatsMock.map(chatMock => new ChatComponent({ props: chatMock, attributes: { 'data-id':chatMock.id } }));
     
     super('ul', {

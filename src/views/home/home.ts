@@ -4,7 +4,6 @@ import { ChatsFeed } from '../../modules/chat-feed/chat-feed';
 
 
 interface HomeViewProps {
-  props?: any,
   children?: {
     body: Block
   }

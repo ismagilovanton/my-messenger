@@ -5,10 +5,16 @@ import { InputComponent } from '../../components/Input/input.ts';
 import { Form } from '../../components/Form/form.ts';
 import { Button } from '../../components/Button/button';
 import template from './signin.tmpl';
+
+interface SignInProps {
+  children: {
+    form: Form
+  }
+}
 export class SignInView extends Block {
   private controller: SignInController;
 
-  constructor(props: any) {
+  constructor(props: SignInProps) {
     
     super('div', props);
 

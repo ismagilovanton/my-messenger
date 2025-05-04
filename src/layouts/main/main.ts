@@ -4,7 +4,6 @@ import './main.scss';
 
 
 interface MainLayoutProps {
-  props?: any
   children: {
     sidebar?: Block,
     body?: Block

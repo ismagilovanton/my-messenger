@@ -15,12 +15,18 @@ import {
 
 import { ProfileDataController } from '../../controllers/profile/profile-data.controller';
 
+interface ProfileDataProps {
+  children: {
+    form: Form;
+  };
+}
+
 export class ProfileData extends Block {
   private controller: ProfileDataController;
 
   private service: ProfileDataService;
 
-  constructor(props: any) {
+  constructor(props: ProfileDataProps) {
     const service = new ProfileDataService();
     const controller = new ProfileDataController(service);
 

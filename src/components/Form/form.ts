@@ -8,9 +8,9 @@ interface FormProps {
     action: string
   },
   children: {   
-    header: Block,
+    header?: Block,
     submit: Block,
-    footer: Block
+    footer?: Block
   },
   items: {
     inputs: Array<Block>

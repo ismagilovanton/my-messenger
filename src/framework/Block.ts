@@ -2,11 +2,11 @@ import EventBus from './EventBus';
 import Handlebars from 'handlebars';
 
 export interface PropsWithChildren {
-  props?: any;
-  children?: any;
-  items?: any;
-  events?: any;
-  attributes?: any;
+  props?: Record<string, unknown>;
+  children?: Record<string, Block>;
+  items?: Record<string, Block[]>;
+  events?: Record<string, (e: Event) => void>;
+  attributes?: Record<string, string>;
 }
 
 export default class Block {
@@ -37,7 +37,7 @@ export default class Block {
 
   protected _events: Record<string, any> = {};
 
-  private _eventBus: any = null;
+  private _eventBus: EventBus | null = null;
 
   /**
    * @param {string} tagName

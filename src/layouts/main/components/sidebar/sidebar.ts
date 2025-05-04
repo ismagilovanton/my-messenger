@@ -2,7 +2,6 @@ import Block from '../../../../framework/Block';
 import template from './sidebar.tmpl';
 import './sidebar.scss';
 interface SidebarProps {
-  props?: any,
   children: {
     content: Block
   }

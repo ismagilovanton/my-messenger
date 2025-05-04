@@ -1,7 +1,7 @@
-export function last(arr: Array<any>): any {
+export function last<T>(arr: Array<T>): T | undefined {
   return arr[arr.length - 1];
 }
 
-export function first(arr: Array<any>):any {
+export function first<T>(arr: Array<T>): T | undefined {
   return arr[0];
 }
