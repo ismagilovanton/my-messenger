@@ -28,3 +28,4 @@ export class HomeView extends Block {
     return template;
   }
 }
+

@@ -19,3 +19,4 @@ export class AuthLayout extends Block {
     return template;
   }
 }
+

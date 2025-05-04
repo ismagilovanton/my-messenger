@@ -107,3 +107,4 @@ export class SignUpView extends Block {
     return template;
   }
 }
+

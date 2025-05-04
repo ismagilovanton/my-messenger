@@ -3,3 +3,4 @@ export class ChatFeedService {
     console.log('Send message');
   }    
 }
+

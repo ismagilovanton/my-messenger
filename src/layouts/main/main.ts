@@ -22,3 +22,4 @@ export class MainLayout extends Block {
     return template;
   }
 }
+

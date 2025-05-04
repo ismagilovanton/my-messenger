@@ -17,3 +17,4 @@ export function formDataToObject<T extends Record<string, unknown>>(formData: Fo
 
   return obj as T;
 }
+

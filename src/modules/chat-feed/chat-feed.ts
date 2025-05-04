@@ -37,3 +37,4 @@ export class ChatsFeed extends Block {
     return template;
   }
 }
+

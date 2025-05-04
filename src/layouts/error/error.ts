@@ -18,3 +18,4 @@ export class ErrorLayout extends Block {
     return template;
   }
 }
+

@@ -94,3 +94,4 @@ export class SignInView extends Block {
     return template;
   }
 }
+
