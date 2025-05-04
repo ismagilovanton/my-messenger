@@ -1,41 +1,41 @@
 .input-form {
-  position: relative;
   padding: 15px 0 0;
+  position: relative;
 
   .error {
     color: $danger;
     font-size: 8px;
-    line-height: 8px;
     letter-spacing: 0%;
+    line-height: 8px;
   }
 
   .label {
+    color: $main;
+    display: block;
+    font-size: 9px;
     position: absolute;
     top: 0;
-    display: block;
     transition: 0.25s;
-    font-size: 9px;
-    color: $main;
   }
 
   .field {
-    font-family: inherit;
-    width: 100%;
+    background: transparent;
     border: 0;
     border-bottom: 2px solid $gray;
-    outline: 0;
-    font-size: 13px;
     color: $white;
+    font-family: inherit;
+    font-size: 13px;
+    outline: 0;
     padding: 8px 0;
-    background: transparent;
+    width: 100%;
 
     &::placeholder {
       color: transparent;
     }
 
     &:placeholder-shown ~ .label {
-      font-size: 13px;
       cursor: text;
+      font-size: 13px;
       top: 20px;
     }
 
@@ -46,48 +46,50 @@
 
     &:focus {
       ~ .label {
+        display: block;
+        font-size: 9px;
         position: absolute;
         top: 0;
-        display: block;
         transition: 0.25s;
-        font-size: 9px;
       }
     }
   }
 }
 
 .input-inline {
-  // display: flex;
-  // justify-content: space-between;
-  padding: 10px 0px;
   border-bottom: 1px solid $gray;
-  width: 100%;
+
   // flex-direction: row-reverse;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+
+  // display: flex;
+  // justify-content: space-between;
+  padding: 10px 0;
   row-gap: 10px;
+  width: 100%;
 
   .error {
-    order: 3;
     color: $danger;
     font-size: 14px;
     grid-column: span 2;
+    order: 3;
   }
 
   .label {
-    order: 1;
-    font-weight: 600;
     color: $main;
+    font-weight: 600;
+    order: 1;
   }
 
   .field {
-    order: 2;
     background: none;
-    outline: none;
     border: none;
-    text-align: end;
     color: $lightGray;
     font-size: 14px;
+    order: 2;
+    outline: none;
+    text-align: end;
   }
 
   &:last-child {

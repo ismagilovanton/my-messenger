@@ -1,10 +1,10 @@
 .placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
   color: $main;
+  display: flex;
+  flex-direction: column;
   font-weight: 500;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }
