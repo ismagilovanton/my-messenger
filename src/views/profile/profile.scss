@@ -18,26 +18,26 @@
     width: 100%;
 
 
-    &--item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0px;
-      border-bottom: 1px solid $gray;
-      width: 100%;
+    // &--item {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   padding: 10px 0px;
+    //   border-bottom: 1px solid $gray;
+    //   width: 100%;
 
-      .label {
-        font-weight: 600;
-        color: $main;
-      }
+    //   .label {
+    //     font-weight: 600;
+    //     color: $main;
+    //   }
 
-      .value {
-        color: $lightGray;
-      }
+    //   .value {
+    //     color: $lightGray;
+    //   }
 
-      &:last-child {
-        border-bottom: none;
-      }
-    }
+    //   &:last-child {
+    //     border-bottom: none;
+    //   }
+    // }
   }
 
   &__avatar {

@@ -1,5 +1,5 @@
-import Search from '../../../../../public/icons/search.svg'
-import ChevronRight from '../../../../../public/icons/chevron-right.svg'
+import Search from '../../../../../public/icons/search.svg';
+import ChevronRight from '../../../../../public/icons/chevron-right.svg';
 
 export default `
 
@@ -17,7 +17,7 @@ export default `
             <span>Поиск</span>
     </div>
 
-    {{>chatsList}}
+    {{{content}}}
 </div>
 `;
 

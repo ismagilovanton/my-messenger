@@ -5,7 +5,7 @@
   border-top: 1px solid $gray;
   padding-top: 10px;
 
-  &__input {
+  .field {
     background: $accent;
     outline: none;
     padding: 10px 20px;
@@ -16,6 +16,20 @@
 
     &::placeholder {
       color: $lightGray;
+    }
+  }
+
+  &__input {
+    width: 100%;
+
+    &:has(.error) {
+      .field {
+        outline: 1px solid $danger;
+      }
+
+      .error {
+        display: none;
+      }
     }
   }
 
@@ -32,5 +46,4 @@
     border-radius: 100%;
     border: none;
   }
-
 }

@@ -1,40 +1,36 @@
-import Handlebars from "handlebars";
+import '../../static/style.scss';
 
-import template from "../../templates/error.tmpl";
+import { renderDOM } from '../../utils/render.util';
+import { ErrorCard } from '../../components/Error/error';
+import { Button } from '../../components/Button/button';
 
-import '../../static/style.scss'
+document.addEventListener('DOMContentLoaded', () => {
 
-import { ErrorLayout } from "../../layouts/error";
-
-interface ErrorViewProps {
-  code?: number;
-  message?: string;
-  action: string;
-}
-
-export function ErrorView(props: ErrorViewProps) {
-  const compiledView = Handlebars.compile(template);
-  const compiledLayout = ErrorLayout;
-
-  return compiledLayout({
-    body: compiledView(props),
+  const backButton = new Button({
+    props: {
+      text: 'Назад к чатам',
+    },
+    attributes: {
+      class: 'button-main',
+      id: 'button-main',
+      name: 'test',
+    },
+    events: {
+      click: () => {
+        window.location.href = '/';
+      },
+    },
   });
-}
 
-function renderPage() {
-  const root = document.querySelector("#app");
-
-  if (!root) return;
-
-  root.innerHTML = ErrorView({
-    code: 500,
-    message: "Мы уже фиксим",
-    action: "Назад к чатам",
-   
+  const errorCard  = new ErrorCard({
+    props: {
+      code: 500,
+      message: 'Мы уже фиксим',
+    },
+    children: {
+      action: backButton,
+    },
   });
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderPage();
+  renderDOM('#app', errorCard);
 });
-

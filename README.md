@@ -7,6 +7,8 @@
 * Typescript
 * SAAS
 * Handlebars
+* Eslint
+* Stylelint
 
 ## Цель проекта
 Реализация веб-мессенджера для обмена сообщениями
@@ -16,6 +18,11 @@
 * Сборка проекта ```npm run build```
 * Запуск для разработки ```npm run dev```
 * Запуск проекта ```npm run start```
+* Форматирование eslint ```eslint . --ext .ts```
+* Форматирование eslint (с исправлением) ```eslint . --ext .ts --fix```
+* Форматирование stylelint ```eslint . --ext .ts```
+* Форматирование stylelint (с исправлением) ```eslint . --ext .ts --fix```
+
 
 ## Список страниц
 

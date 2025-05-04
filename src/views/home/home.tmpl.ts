@@ -1,4 +1,4 @@
 export default `
-  {{>chat-feed}}
+  {{{body}}}
 `;
 

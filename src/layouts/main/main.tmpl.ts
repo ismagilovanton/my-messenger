@@ -1,9 +1,11 @@
 export default `
+    <div class="main">
         <div class="main__sidebar">
-            {{> sidebar}}
+            {{{sidebar}}}
         </div>
         <div class="main__content">
-            {{{body}}}
+           {{{body}}}
         </div>
+    </div>
 `;
 
