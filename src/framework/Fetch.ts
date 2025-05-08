@@ -28,23 +28,23 @@ function queryStringify(data: Record<string, unknown>): string {
 }
 export class HTTPTransport {
   get(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+    return this.request(url, { ...options, method: METHODS.GET });
   }
 
   put(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+    return this.request(url, { ...options, method: METHODS.PUT });
   }
 
   post(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+    return this.request(url, { ...options, method: METHODS.POST });
   }
 
   delete(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+    return this.request(url, { ...options, method: METHODS.DELETE });
   }
 
-  request(url: string, options: RequestOptions, timeout = 5000): Promise<XMLHttpRequest> {
-    const { method, data, headers } = options;
+  request(url: string, options: RequestOptions): Promise<XMLHttpRequest> {
+    const { method, data, headers, timeout = 5000 } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
