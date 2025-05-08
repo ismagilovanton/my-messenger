@@ -21,7 +21,9 @@ function queryStringify(data: Record<string, unknown>): string {
   
   const keys = Object.keys(data);
   return keys.reduce((result, key, index) => {
-    return `${result}${key}=${String(data[key])}${index < keys.length - 1 ? '&' : ''}`;
+    const encodedKey = encodeURIComponent(key);
+    const encodedValue = encodeURIComponent(String(data[key]));
+    return `${result}${encodedKey}=${encodedValue}${index < keys.length - 1 ? '&' : ''}`;
   }, '?');
 }
 export class HTTPTransport {
