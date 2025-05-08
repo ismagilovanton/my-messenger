@@ -5,11 +5,11 @@ export const name: ValidationRule = (value) => {
     return 'Поле обязательно для заполнения';
   }
     
-  if (!/^[А-ЯA-Z]/.test(value)) {
+  if (!/^[А-ЯЁA-Z]/.test(value)) {
     return 'Имя должно начинаться с заглавной буквы';
   }
     
-  if (/[^а-яА-Яa-zA-Z-]/.test(value)) {
+  if (/[^а-яёА-ЯЁa-zA-Z-]/.test(value)) {
     return 'Имя может содержать только буквы и дефис';
   }
     
