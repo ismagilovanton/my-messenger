@@ -1,13 +1,11 @@
-@import '../static/variables.scss';
-
 .auth-wrapper {
-  height: 100%;
+  background: $accent;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  height: 100%;
   justify-content: center;
-  border-radius: 12px;
-  background: $accent;
+  padding: 30px;
 
   &__title {
     font-weight: 500;
@@ -15,11 +13,11 @@
   }
 
   &__form {
-    height: 100%;
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
+    width: 100%;
 
     .form {
       &-group {
@@ -28,20 +26,21 @@
       }
 
       &-actions {
-        display: flex;
-        justify-content: center;
         align-items: center;
+        display: flex;
         flex-direction: column;
-        margin-top: 47px;
         gap: 14px;
+        justify-content: center;
+        margin-top: 47px;
         width: 100%;
 
         a {
           color: $main;
-          font-weight: 500;
           font-size: 11px;
+          font-weight: 500;
         }
       }
     }
   }
 }
+

@@ -1,3 +1,4 @@
-export function identity(value: any) {
-    return value;
+export function identity<T>(value: T): T {
+  return value;
 }
+

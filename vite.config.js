@@ -5,9 +5,6 @@ import handlebars from "vite-plugin-handlebars";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-
-console.log(resolve(__dirname, "src"));
-
 export default defineConfig({
   root: resolve(__dirname, "src"),
   plugins: [
@@ -26,7 +23,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@use "@/static/variables.scss" as *;',
+        additionalData: '@use "@/static/variables.scss" as *;\n',
       },
     },
   },

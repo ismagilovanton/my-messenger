@@ -1,11 +1,12 @@
 .chats {
   display: flex;
   flex-direction: column;
-  padding: 10px 10px;
   gap: 12px;
+  padding: 10px;
 
   hr {
-    width: calc(100% - 20px);
     margin: 4px 10px;
+    width: calc(100% - 20px);
   }
 }
+

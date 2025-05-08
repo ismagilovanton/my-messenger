@@ -1,31 +1,22 @@
-import Handlebars from "handlebars";
+import '../../static/style.scss';
+import '../../static/index.ts';
 
-import { AuthLayout } from "../../layouts/auth";
+import { AuthLayout } from '../../layouts/auth/auth.ts';
+import { SignUpView } from './signup.ts';
 
-import "./signup.scss";
-import "../../static/style.scss";
-import "../../static/index.ts";
+import { renderDOM } from '../../utils/render.util.ts';
 
-import template from "./signup.tmpl.ts";
 
-export function SignUpView() {
-  const compiledView = Handlebars.compile(template);
-  const compiledLayout = AuthLayout;
+document.addEventListener('DOMContentLoaded', () => {
 
-  return compiledLayout({
-    body: compiledView({}),
+  const body = new SignUpView({});
+
+  const layout = new AuthLayout({
+    children: {
+      body,
+    },
   });
-}
 
-function renderPage() {
-  const root = document.querySelector("#app");
-
-  if (!root) return;
-
-  root.innerHTML = SignUpView();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderPage();
+  renderDOM('#app', layout);
 });
 
