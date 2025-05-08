@@ -65,8 +65,8 @@ export class ChatFeedInput extends Block {
       },
       events: {
         submit: (e) => {
-          const target = e.currentTarget as HTMLFormElement | null;
-          if (target) {
+          const target = e.currentTarget;
+          if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
             const data = formDataToObject(formData);           
             console.log('Submit form', data);
