@@ -18,7 +18,7 @@ export default class Block {
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_RENDER: 'flow:render',
     FLOW_CDU: 'flow:component-did-update',
-  };
+  } as const;
 
   private _meta = {
     tagName: 'div',
