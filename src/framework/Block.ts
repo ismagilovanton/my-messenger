@@ -153,6 +153,7 @@ export default class Block {
   }
 
   _render() {
+    this._removeEvents();
   
     const propsAndStubs: Record<string, unknown> = { ...this._props };
   
@@ -231,6 +232,12 @@ export default class Block {
   addEvents() {
     Object.keys(this._events).forEach((eventName) => {
       this._element?.addEventListener(eventName, this._events[eventName]);
+    });
+  }
+  
+  private _removeEvents() {
+    Object.keys(this._events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, this._events[eventName]);
     });
   }
 
