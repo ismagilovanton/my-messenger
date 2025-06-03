@@ -29,7 +29,7 @@ class ProfileData extends Block {
   private profileDataController: ProfileDataController;
 
 
-  constructor(tagName = 'div', props: ProfileDataProps) {
+  constructor(tagName = 'div', props?: ProfileDataProps) {
     const state = store.getState();
 
     const user = state.user;
@@ -136,7 +136,7 @@ class ProfileData extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            this.profileDataController.updateProfile(formData);
+            this.profileDataController.updateProfile(formData).catch((error) => console.log(error));
           }
         },
       },

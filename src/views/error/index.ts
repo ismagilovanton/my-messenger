@@ -19,7 +19,7 @@ export class ErrorPage extends Block {
       },
       events: {
         click: () => {
-          router.go('/messenger');
+          router.go('/messenger').catch((error) => console.log(error));
         },
       },
     });

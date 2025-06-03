@@ -10,7 +10,7 @@ export class ProfileAvatarService {
   }
 
 
-  async updateAvatar(payload: FormData) {
+  async updateAvatar(payload: File) {
     const user = await this.api.updateAvatar(payload);
     return user;    
   }

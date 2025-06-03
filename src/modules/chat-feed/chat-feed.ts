@@ -29,7 +29,7 @@ class ChatsFeed extends Block {
 
   private chatFeedController: ChatFeedController;
 
-  constructor(props?: ChatsFeedProps) {
+  constructor(tagName?: string, props?: ChatsFeedProps) {
 
     const header = new ChatHeader();
     const messages = new ChatFeedMessages();
@@ -54,7 +54,7 @@ class ChatsFeed extends Block {
     });
     
     
-    super('div', {
+    super(tagName ?? 'div', {
       ...props,
     });
     
@@ -73,14 +73,16 @@ class ChatsFeed extends Block {
     });
   }
 
-  protected async componentDidUpdate() {
-    console.log('COMPONENT DID MOUNT');
-    
+  override componentDidUpdate() {
+
     const state = store.getState();
     if (state.selectedChat) {
       this.wsService.close();
-      await this.connectToChat();
+      // Run async logic without awaiting to keep method synchronous
+      this.connectToChat().catch(error => {console.log(error);});
     }
+
+    return true;
   }
 
   async connectToChat() {
@@ -114,4 +116,4 @@ class ChatsFeed extends Block {
 }
 
 
-export default connect<ChatsFeedProps>(mapSelectedChatToProps)(ChatsFeed);
+export default connect<{ selectedChat: Chat | null }>(mapSelectedChatToProps)(ChatsFeed);

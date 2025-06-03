@@ -6,17 +6,18 @@ import { connect, mapSelectedChatToProps } from '../../../../utils/connect.util'
 
 import { Button } from '../../../../components/Button/button';
 import { ChatFeedController } from '../../../../controllers/home/chats-feed/chats-feed.controller';
+import { Chat } from '../../../../types/chat.types';
 
 interface ChatHeaderProps {
   props?: {
-    name: string
+    selectedChat: Chat
   }
 }
 
 class ChatHeader extends Block {
   private chatFeedController: ChatFeedController;
 
-  constructor(props: ChatHeaderProps) {
+  constructor(tagName = 'div', props?: ChatHeaderProps) {
     
     const openUsersList = new Button({
       props: {
@@ -29,11 +30,11 @@ class ChatHeader extends Block {
       },
       events: {
         click: () => {
-          this.chatFeedController.openUsersSettings();
+          this.chatFeedController.openUsersSettings().catch((error) => console.log(error));
         },
       },
     });
-    super('div', { ...props, children: { openUsersList } });
+    super(tagName, { ...props, children: { openUsersList } });
     this.chatFeedController = new ChatFeedController();
   }
 
@@ -43,4 +44,4 @@ class ChatHeader extends Block {
 
 }
 
-export default connect<ChatHeaderProps>(mapSelectedChatToProps)(ChatHeader);
+export default connect<{ selectedChat: Chat | null }>(mapSelectedChatToProps)(ChatHeader);

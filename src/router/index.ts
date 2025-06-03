@@ -12,29 +12,29 @@ import store from '../stores/store';
 const router = new Router('#app');
 
 // Middleware для проверки авторизации
-async function authMiddleware(next: Function) {
+async function authMiddleware(next: () => void): Promise<void> {
   try {
     const auth = new AuthAPI();
     const isAuthorized = await auth.getUser();
     console.log(isAuthorized);
     store.set('user', isAuthorized);
-    
+
     if (!isAuthorized && !['/signin', '/signup'].includes(window.location.pathname)) {
       await router.go('/');
       return;
     }
-    
+
     next();
-  } catch (error) {
+  } catch (error: any) {
     if (error.status === 401) {
       await router.go('/');
-      return null;
+      return;
     }
     await router.go('/error');
   }
 }
 
-async function redirectIfAuthorized(next: Function) {
+async function redirectIfAuthorized(next: ()=>void) {
   try {
     const auth = new AuthAPI();
     const user = await auth.getUser();

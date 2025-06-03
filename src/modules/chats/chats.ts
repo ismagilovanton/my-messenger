@@ -5,7 +5,7 @@ import './chats.scss';
 import template from './chats.tmpl';
 import { ChatController } from '../../controllers/home/chats/chat.controller';
 import { Button } from '../../components/Button/button';
-import { connect, mapChatsToProps, mapSelectedChatToProps } from '../../utils/connect.util';
+import { connect, mapChatsToProps } from '../../utils/connect.util';
 
 interface ChatsListProps {
   items?: {
@@ -20,7 +20,7 @@ class ChatsList extends Block {
 
   private chatController: ChatController;
 
-  constructor(props: ChatsListProps) {
+  constructor(tagName: string = 'ul', props?: ChatsListProps) {
    
     const submit = new Button({
       attributes: {
@@ -39,13 +39,13 @@ class ChatsList extends Block {
           
           const chatName = prompt('Введите название чата:');
           if (chatName) {
-            this.chatController.createChat(chatName);
+            this.chatController.createChat(chatName).catch((error) => console.log(error));
           }
         },
       },
     });
     
-    super('ul', {
+    super(tagName, {
       ...props,
       children: {
         button: submit,
@@ -65,8 +65,8 @@ class ChatsList extends Block {
       },
     });
 
-    this.chatController = new ChatController(this);
-    this.chatController.getChats();
+    this.chatController = new ChatController();
+    this.chatController.getChats().catch((error) => console.log(error));
 
   }
 

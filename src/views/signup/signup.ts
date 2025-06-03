@@ -94,7 +94,7 @@ export class SignUpView extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            this.controller.signUp(formData)
+            this.controller.signUp(formData).catch((error) => console.log(error));
           }
         },
       },
@@ -110,4 +110,4 @@ export class SignUpView extends Block {
   }
 }
 
-export default connect<SignUpProps>(mapUserToProps)(SignUpView);
+export default connect<{ name: string }>(mapUserToProps)(SignUpView);

@@ -19,7 +19,7 @@ export class NotFoundPage extends Block {
       },
       events: {
         click: () => {
-          router.go('/');
+          router.go('/').catch((error) => console.log(error));
         },
       },
     });

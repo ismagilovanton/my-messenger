@@ -43,7 +43,7 @@ export class ChatAPI extends BaseAPI {
   }
 
 
-  async addUserToChat(payload: { chatId: number, userId: Array<number> }) {
+  async addUserToChat(payload: { chatId: number, users: Array<number> }) {
     const data = await this.apiInstance.put('/users', {
       data: JSON.stringify(payload),
     });
@@ -51,7 +51,7 @@ export class ChatAPI extends BaseAPI {
     return data.response;
   }
 
-  async removeUserFromChat(payload: { chatId: number, userId: Array<number> }) {
+  async removeUserFromChat(payload: { chatId: number, users: Array<number> }) {
     const data = await this.apiInstance.delete('/users', {
       data: JSON.stringify(payload),
     });

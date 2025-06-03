@@ -29,7 +29,7 @@ export class HomePage extends Block {
           e.preventDefault(); 
           const target = e.target as HTMLButtonElement;
           if (target.name === 'save') {
-            router.go('/settings');
+            router.go('/settings').catch((error) => console.log(error));
           }
         },
       },
@@ -55,6 +55,6 @@ export class HomePage extends Block {
   }
 
   override render() {
-  return '{{{layout}}}';
+    return '{{{layout}}}';
   }
 }

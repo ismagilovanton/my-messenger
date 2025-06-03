@@ -33,6 +33,9 @@ class ProfileView extends Block {
     
     const user = state.user;
 
+
+    const profilePassword = new ProfilePassword();
+
     const button = new Button({
       props: {
         text: 'Выйти',
@@ -47,7 +50,7 @@ class ProfileView extends Block {
           e.preventDefault();
           const target = e.target as HTMLButtonElement;
           if (target instanceof HTMLButtonElement) {
-            this.authController.signOut();
+            this.authController.signOut().catch((error) => console.log(error));
           }
         },
       },
@@ -114,9 +117,6 @@ class ProfileView extends Block {
 
 
     this.authController = new AuthController(this);
-
-    const profilePassword = new ProfilePassword();
-
   }
 
   override render(): string {

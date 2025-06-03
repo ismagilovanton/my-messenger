@@ -6,10 +6,10 @@
   padding-bottom: 10px;
 
   &__actions {
-    margin-left: auto;
+    align-items: center;
     display: flex;
     gap: 16px;
-    align-items: center;
+    margin-left: auto;
   }
 
   &__info {

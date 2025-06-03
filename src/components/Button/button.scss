@@ -3,18 +3,18 @@
     background: $main;
     border: none;
     border-radius: 8px;
+    cursor: pointer;
     font-weight: 500;
     outline: none;
     padding: 12px;
     width: 100%;
-    cursor: pointer;
   }
 
   &-text {
     background: none;
     border: none;
-    outline: none;
     cursor: pointer;
+    outline: none;
 
     &:hover {
       background-color: $selection;
@@ -42,18 +42,18 @@
   &-icon {
     background: $main;
     border: none;
+    border-radius: 100%;
     color: $gray;
     cursor: pointer;
     font-size: 16px;
+    height: 40px;
     outline: none;
     padding: 0;
     width: 40px;
-    height: 40px;
-    border-radius: 100%;
 
     img {
-      width: 40px;
       height: 40px;
+      width: 40px;
     }
 
     &:hover {

@@ -1,19 +1,17 @@
+import { ChatMessage } from '../types/chat.types';
+
 type WebSocketEvents = {
-  onMessage?: (data: unknown) => void;
+  onMessage?: (data: ChatMessage) => void;
   onClose?: () => void;
   onError?: (error: Event) => void;
   onOpen?: () => void;
-  onHistory?: (data: unknown) => void;
+  onHistory?: (data: Array<ChatMessage>) => void;
 };
 
 class WebSocketService {
   private socket: WebSocket | null = null;
 
   private events: WebSocketEvents;
-
-  private reconnectAttempts = 0;
-
-  private maxReconnectAttempts = 3;
 
   private reconnectTimeout = 3000;
 
@@ -64,15 +62,6 @@ class WebSocketService {
   }
 
   private reconnect() {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error('Превышено максимальное количество попыток переподключения');
-      return;
-    }
-
-    this.reconnectAttempts++;
-
-    console.log(`Попытка переподключения ${this.reconnectAttempts}/${this.maxReconnectAttempts}...`);
-
     setTimeout(() => {
       if (this.userId && this.chatId && this.token) {
         this.connect(this.chatId, this.userId, this.token);

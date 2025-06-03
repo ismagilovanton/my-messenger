@@ -40,7 +40,6 @@ class Store extends EventBus {
       console.log('Store updated:', this.state);
     });
     
-    window.store  = this.state; // сохраняем состояние в глобальную переменную для отладки
   }
 
   public set(path: string, value: unknown) {
@@ -48,7 +47,6 @@ class Store extends EventBus {
 
     // метод EventBus
     this.emit(StoreEvents.Updated);
-    window.store = this.state; // сохраняем состояние в глобальную переменную для отладки
   }
 
   public getState(): Indexed {

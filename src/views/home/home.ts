@@ -16,12 +16,12 @@ interface HomeViewProps {
 }
 
 class HomeView extends Block {
-  constructor(props: HomeViewProps) {
+  constructor(tagName: string = 'ul', props?: HomeViewProps) {
 
 
     const chatsFeed = new ChatsFeed();
 
-    super('div', {
+    super(tagName, {
       ...props,
       props: {
         chatSettingState: false,
@@ -47,4 +47,4 @@ class HomeView extends Block {
   }
 }
 
-export default connect<HomeViewProps>(mapChatSettingsStateToProps)(HomeView);
+export default connect<{ chatSettingState: boolean }>(mapChatSettingsStateToProps)(HomeView);

@@ -3,7 +3,7 @@ import template from './chat-feed-messages.tmpl';
 import './chat-feed-messages.scss';
 import { Placeholder } from '../../../../components/Placeholder/placeholder';
 import { connect, mapMessagesToProps } from '../../../../utils/connect.util';
-import { Chat } from '../../../../types/chat.types';
+import { Chat, ChatMessage } from '../../../../types/chat.types';
 import store from '../../../../stores/store';
 
 interface ChatFeedMessagesProps {
@@ -16,11 +16,10 @@ interface ChatFeedMessagesProps {
 
 class ChatFeedMessages extends Block {
 
-
-
-  constructor(tagName = 'div', props: ChatFeedMessagesProps) {
+  constructor(tagName: string = 'div', props?: ChatFeedMessagesProps ) {
     
-    
+    const state = store.getState();
+    const currentUserId = state.user?.id;
     const placeholder = new Placeholder({
       props: {
         text: 'Чат пуст',
@@ -30,7 +29,7 @@ class ChatFeedMessages extends Block {
     super(tagName, {
       ...props,
       props: {
-        currentUserId: store.getState()?.user.id | 0,
+        currentUserId: currentUserId,
       },
       children: {
         placeholder,
@@ -43,4 +42,4 @@ class ChatFeedMessages extends Block {
   }
 }
 
-export default connect<ChatFeedMessagesProps>(mapMessagesToProps)(ChatFeedMessages);
+export default connect<{ messages: Array<ChatMessage>, selectedChat: Chat | null }>(mapMessagesToProps)(ChatFeedMessages);

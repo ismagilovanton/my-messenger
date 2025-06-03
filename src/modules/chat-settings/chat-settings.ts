@@ -66,7 +66,7 @@ class ChatSettings extends Block {
           const target = e.target as HTMLButtonElement;
           if (target instanceof HTMLButtonElement) {
             console.log('Удалить чат');
-            this.chatSettingsController.removeChat();
+            this.chatSettingsController.removeChat().catch((error) => console.log(error));
           }
         },
       },
@@ -105,7 +105,7 @@ class ChatSettings extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            this.chatSettingsController.addChatUser(formData);
+            this.chatSettingsController.addChatUser(formData).catch((error) => console.log(error));
           }
         },
       },
@@ -126,13 +126,13 @@ class ChatSettings extends Block {
           const id = Number(target?.getAttribute('data-user-id'));
 
           if (id) {
-            this.chatSettingsController.removeChatUser(id);
+            this.chatSettingsController.removeChatUser(id).catch((error) => console.log(error));
           }
         },
       },
     });
     this.chatSettingsController = new ChatSettingsController();
-    this.chatSettingsController.getChatUsers();   
+    this.chatSettingsController.getChatUsers().catch((error) => console.log(error));   
   }
 
   addEvents():void {

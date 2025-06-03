@@ -17,7 +17,7 @@ export class Route {
 
   private _props: any;
 
-  constructor(pathname:string, view: new() => Block, props) {
+  constructor(pathname: string, view: new() => Block, props: { rootQuery: string; middleware?: unknown }) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;

@@ -21,7 +21,7 @@ export function merge(lhs: Indexed, rhs: Indexed): Indexed {
   return lhs;
 }
 
-export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
+export function set(object: Indexed, path: string, value: unknown): Indexed {
 
   if (typeof path !== 'string') {
     throw new Error('path must be string');
@@ -70,29 +70,43 @@ export function isArrayOrObject(value: unknown): value is ([] | PlainObject) {
   return isPlainObject(value) || isArray(value);
 }   
 
-export function isEqual(lhs: PlainObject, rhs: PlainObject) {
-  // Сравнение количества ключей объектов и массивов
-  if (Object.keys(lhs).length !== Object.keys(rhs).length) {
-    return false;
-  }
-
-  for (const [key, value] of Object.entries(lhs)) {
-    const rightValue = rhs[key];
-    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-      // Здесь value и rightValue может быть только массивом или объектом
-      // И TypeScript это обрабатывает
-      if (isEqual(value, rightValue)) {
-        continue;
+export function isEqual(lhs: PlainObject | unknown[], rhs: PlainObject | unknown[]): boolean {
+  if (Array.isArray(lhs) && Array.isArray(rhs)) {
+    if (lhs.length !== rhs.length) {
+      return false;
+    }
+    for (let i = 0; i < lhs.length; i++) {
+      if (isArrayOrObject(lhs[i]) && isArrayOrObject(rhs[i])) {
+        if (!isEqual(lhs[i] as PlainObject | unknown[], rhs[i] as PlainObject | unknown[])) {
+          return false;
+        }
+      } else if (lhs[i] !== rhs[i]) {
+        return false;
       }
-      return false;
     }
-
-    if (value !== rightValue) {
-      return false;
-    }
+    return true;
   }
 
-  return true;
+  if (isPlainObject(lhs) && isPlainObject(rhs)) {
+    if (Object.keys(lhs).length !== Object.keys(rhs).length) {
+      return false;
+    }
+
+    for (const [key, value] of Object.entries(lhs)) {
+      const rightValue = (rhs)[key];
+      if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+        if (!isEqual(value, rightValue)) {
+          return false;
+        }
+      } else if (value !== rightValue) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return lhs === rhs;
 }
 
 export function cloneDeep<T extends object = object>(obj: T): T {

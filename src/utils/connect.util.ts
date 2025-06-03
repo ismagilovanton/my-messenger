@@ -27,8 +27,12 @@ export function connect<P = Record<string, unknown>>(
           if (!isEqual(state, newState)) {
             
             
-            if (newState.hasOwnProperty('items')) {
-              (this as any).setItems(newState.items);
+            if (
+              Object.prototype.hasOwnProperty.call(newState, 'items') &&
+              typeof (this as any).setItems === 'function' &&
+              (newState as { items?: unknown }).items !== undefined
+            ) {
+              (this as any).setItems((newState as unknown as { items: unknown }).items);
             } else {
               this.setProps({ ...newState });
             }
@@ -50,7 +54,7 @@ export function mapUserToProps(state: Indexed) {
 
 export function mapFullUserToProps(state: Indexed) {
   return {
-    user: state?.user,
+    user: state?.user as User,
   };
 }
 
@@ -60,7 +64,7 @@ export function mapChatsToProps(state: Indexed) {
   return {
     items: {
       chats: state.chats.map((chat: Chat)  => 
-        new ChatComponent({ props: chat, attributes: { 'data-id': chat.id.toString() } })),
+        new ChatComponent({ props: { chat }, attributes: { 'data-id': chat.id.toString() } })),
     },
   };
 }
@@ -82,7 +86,6 @@ export function mapUsersToItems(state: Indexed) {
 export function mapSelectedChatToProps(state: Indexed) {
   return {
     selectedChat: state.selectedChat || null,
-   
   };
 }
 

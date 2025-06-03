@@ -12,7 +12,7 @@ export class ProfileAvatarController {
 
 
 
-  async updateAvatar(payload: FormData) {
+  async updateAvatar(payload: File) {
     const updatedUser = await this.profileAvatarService.updateAvatar(payload);
     console.log(updatedUser);
 

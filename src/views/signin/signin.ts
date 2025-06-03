@@ -5,7 +5,8 @@ import { InputComponent } from '../../components/Input/input.ts';
 import { Form } from '../../components/Form/form.ts';
 import { Button } from '../../components/Button/button';
 import template from './signin.tmpl';
-import { connect, mapUserToProps } from '../../utils/connect.util.ts';
+import { connect, mapFullUserToProps } from '../../utils/connect.util.ts';
+import { User } from '../../types/user.types.ts';
 
 interface SignInProps {
   children?: {
@@ -79,7 +80,7 @@ export class SignInView extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            this.controller.signIn(formData);
+            this.controller.signIn(formData).catch((error) => console.log(error));
           }
         },
       },
@@ -97,4 +98,4 @@ export class SignInView extends Block {
 }
 
 
-export default connect<SignInProps>(mapUserToProps)(SignInView);
+export default connect<{ user: User }>(mapFullUserToProps)(SignInView);

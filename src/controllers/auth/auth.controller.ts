@@ -2,9 +2,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import store from '../../stores/store';
 import router from '../../router';
 import type { SignInRequest, SignUpRequest } from '../../types/auth.types';
-import { rulesSignIn, validate } from '../../decorators/validate.decorator';
-import { handleError } from '../../decorators/error.decorator';
-import { authErrorHandler } from '../../utils/errorHandlers';
+// import { handleError } from '../../decorators/error.decorator';
+// import { authErrorHandler } from '../../utils/errorHandlers';
 import Block from '../../framework/Block';
 import { formDataToObject } from '../../utils/formdata.util';
 
@@ -18,7 +17,7 @@ export class AuthController {
     this.view = view; // Initialize view to null
   }
 
-  @handleError(authErrorHandler)
+  // @handleError(authErrorHandler)
   async signUp(data: FormData) {
     try {
       this.view.setProps({
@@ -30,15 +29,15 @@ export class AuthController {
       console.log(`User with id ${id} created successfully`);
       const user = await this.authService.getUser();
       store.set('user', user);
-      router.go('/messenger');
-    } catch (error) {
+      await router.go('/messenger');
+    } catch (error: any) {
       this.view.setProps({ error: error.message || 'Ошибка при входе' });
     }
    
   }
 
   // @validate(rulesSignIn)
-  @handleError(authErrorHandler)
+  // @handleError(authErrorHandler)
   async signIn(data: FormData) {
     try {
       this.view.setProps({
@@ -49,10 +48,8 @@ export class AuthController {
       console.log(response);
       const user = await this.authService.getUser();
       store.set('user', user);
-      router.go('/messenger');
-    } catch (error) {
-      console.log('CONTROLLER', error);
-      console.log({...error})
+      await router.go('/messenger');
+    } catch (error: any) {
       this.view.setProps({ error: error.message || 'Ошибка при регистрации' });
     }
   }
@@ -62,7 +59,7 @@ export class AuthController {
     try {
       await this.authService.signOut();
       store.set('user', null);
-      router.go('/');
+      await router.go('/');
     } catch (error) {
       console.log('CONTROLLER', error);
     }

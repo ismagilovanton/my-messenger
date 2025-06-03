@@ -7,8 +7,8 @@ export interface FieldValidation {
 
 export function validate(validations: FieldValidation[]) {
   return function (
-    target: any,
-    propertyKey: string,
+    // target: any,
+    // propertyKey: string,
     descriptor: PropertyDescriptor,
   ) {
     const originalMethod = descriptor.value;

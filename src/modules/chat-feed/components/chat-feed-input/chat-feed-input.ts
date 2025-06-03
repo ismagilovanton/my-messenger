@@ -6,12 +6,10 @@ import { InputComponent } from '../../../../components/Input/input';
 import { IconComponent } from '../../../../components/Icon/icon';
 import { ButtonIcon } from '../../../../components/ButtonIcon/buttonIcon';
 import { Form } from '../../../../components/Form/form';
-import { ChatFeedController } from '../../../../controllers/home/chats-feed/chats-feed.controller';
 
 import ArrowRight from '../../../../../public/icons/arrow-right.svg';
 import Clip from '../../../../../public/icons/clip.svg';
 import { required } from '../../../../framework/Validation';
-import { formDataToObject } from '../../../../utils/formdata.util';
 
 
 interface ChatFeedInputProps {
@@ -21,9 +19,8 @@ interface ChatFeedInputProps {
 }
 
 export class ChatFeedInput extends Block {
-  private chatFeedController: ChatFeedController;
   
-  constructor(tagName = 'div', props: ChatFeedInputProps) {
+  constructor(tagName = 'div', props: ChatFeedInputProps, ) {
     const input = new InputComponent({
       props: {
         type: 'text',
@@ -75,7 +72,7 @@ export class ChatFeedInput extends Block {
       events: props.events,
     });
 
-    super('div', 
+    super(tagName, 
       { 
         children: {
           form,
@@ -83,7 +80,6 @@ export class ChatFeedInput extends Block {
       },
     );
 
-    this.chatFeedController = new ChatFeedController();
   }
 
   override render() {

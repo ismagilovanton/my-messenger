@@ -1,4 +1,3 @@
-import Block from '../../../framework/Block';
 
 import { ChatSettingsService } from '../../../services/home/chats-settings/chats-settings.service';
 import store from '../../../stores/store';
@@ -26,7 +25,7 @@ export class ChatSettingsController {
     store.set('chatSettingState', false);
   }
 
-  async removeChat() {
+  async removeChat(): Promise<void> {
     console.log('Remove chat');
     const state = store.getState();
     if (!state.selectedChat) {
@@ -81,7 +80,6 @@ export class ChatSettingsController {
 
     const invite = await this.chatSettingsService.addUserToChat({ chatId: state?.selectedChat!.id, users: [user.id] });
 
-    console.log(data);
     console.log(invite);
 
     await this.getChatUsers();

@@ -29,7 +29,7 @@ export class IndexPage extends Block {
             const url = target?.getAttribute('href');
 
             if (url) {
-              router.go(url);
+              router.go(url).catch((error) => console.log(error));
             }
           }
         },

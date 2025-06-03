@@ -271,6 +271,7 @@ export default class Block {
     oldProps: Record<string, unknown>, 
     newProps: Record<string, unknown>,
   ) {
+    console.log(oldProps, newProps);
     return true;
   }
 

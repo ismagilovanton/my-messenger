@@ -4,15 +4,15 @@ import { Route } from './Route';
 export class Router {
   static __instance: Router;
 
-  protected routes: Array<Route>;
+  protected routes: Array<Route> = [];
 
-  protected history: History;
+  protected history!: History;
 
-  private _currentRoute: Route | null;
+  private _currentRoute: Route | null = null;
 
-  private _rootQuery: string;
+  private _rootQuery!: string;
 
-  constructor(rootQuery) {
+  constructor(rootQuery: string) {
     if (Router.__instance) {
       return Router.__instance;
     }
@@ -25,7 +25,7 @@ export class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: new () => Block, middleware?: Middleware) {
+  use(pathname: string, block: new () => Block,  middleware?: (next: () => void) => void | Promise<void>) {
     const route = new Route(pathname, block, { 
       rootQuery: this._rootQuery,
       middleware, 

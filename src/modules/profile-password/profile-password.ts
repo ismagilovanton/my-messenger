@@ -53,7 +53,7 @@ export class ProfilePassword extends Block {
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
            
-            profilePasswordController.updatePassword(formData);
+            profilePasswordController.updatePassword(formData).catch((error) => console.log(error));
           }
         },
       },

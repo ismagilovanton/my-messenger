@@ -34,7 +34,7 @@ class ProfileAvatar extends Block {
             
             if (files && files.length > 0) {
               const file = files[0];
-              this.profileAvatarController.updateAvatar(file);
+              this.profileAvatarController.updateAvatar(file).catch((error) => console.log(error));
             }
           }        
         },
@@ -65,4 +65,4 @@ class ProfileAvatar extends Block {
   }
 }
 
-export default connect<ProfileAvatarProps>(mapFullUserToProps)(ProfileAvatar);
+export default connect<{ user: User | null }>(mapFullUserToProps)(ProfileAvatar);
