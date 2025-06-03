@@ -16,3 +16,4 @@ export class BaseAPI {
 
   delete() { throw new Error('Not implemented'); }
 }
+

@@ -18,3 +18,4 @@ export interface SignInRequest {
 export interface SignUpResponse {
   id: number,
 }
+

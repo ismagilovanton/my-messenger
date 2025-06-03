@@ -111,3 +111,4 @@ export class SignUpView extends Block {
 }
 
 export default connect<{ name: string }>(mapUserToProps)(SignUpView);
+

@@ -56,3 +56,4 @@ export class UserAPI extends BaseAPI {
   }
 
 }
+

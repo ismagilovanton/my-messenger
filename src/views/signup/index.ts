@@ -27,3 +27,4 @@ export class SignUpPage extends Block {
     return '{{{layout}}}';
   }
 } 
+

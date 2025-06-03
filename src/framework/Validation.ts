@@ -84,3 +84,4 @@ export const password: ValidationRule = (value) => {
     
   return null;
 };
+

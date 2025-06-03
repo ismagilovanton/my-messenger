@@ -43,3 +43,4 @@ class ChatFeedMessages extends Block {
 }
 
 export default connect<{ messages: Array<ChatMessage>, selectedChat: Chat | null }>(mapMessagesToProps)(ChatFeedMessages);
+

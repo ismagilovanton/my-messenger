@@ -5,3 +5,4 @@ export const defaultErrorHandler = (error: Error): void => {
 export const authErrorHandler = (error: Error): void => {
   console.error('Ошибка аутентификации:', error.message);
 };
+

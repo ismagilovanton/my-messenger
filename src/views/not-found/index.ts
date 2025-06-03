@@ -43,3 +43,4 @@ export class NotFoundPage extends Block {
     return '{{{errorCard}}}';
   }
 }
+

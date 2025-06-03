@@ -117,3 +117,4 @@ class ChatsFeed extends Block {
 
 
 export default connect<{ selectedChat: Chat | null }>(mapSelectedChatToProps)(ChatsFeed);
+

@@ -160,3 +160,4 @@ class ChatSettings extends Block {
 
 
 export default connect<ChatSettingsProps>(mapUsersToItems)(ChatSettings);
+

@@ -55,3 +55,4 @@ class Store extends EventBus {
 }
 
 export default new Store();
+

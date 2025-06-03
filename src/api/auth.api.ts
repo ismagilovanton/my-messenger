@@ -40,3 +40,4 @@ export class AuthAPI extends BaseAPI {
   }
 
 }
+
