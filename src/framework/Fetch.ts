@@ -21,28 +21,29 @@ function queryStringify(data: Record<string, unknown>): string {
   
   const keys = Object.keys(data);
   return keys.reduce((result, key, index) => {
-    return `${result}${key}=${String(data[key])}${index < keys.length - 1 ? '&' : ''}`;
+    const encodedKey = encodeURIComponent(key);
+    const encodedValue = encodeURIComponent(String(data[key]));
+    return `${result}${encodedKey}=${encodedValue}${index < keys.length - 1 ? '&' : ''}`;
   }, '?');
 }
 export class HTTPTransport {
-  get(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+  
+  private createRequest(method: Method) {
+    return (url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> => {
+      return this.request(url, { ...options, method });
+    };
   }
 
-  put(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
-  }
+  get = this.createRequest(METHODS.GET);
 
-  post(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
-  }
+  put = this.createRequest(METHODS.PUT);
 
-  delete(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-  }
+  post = this.createRequest(METHODS.POST);
 
-  request(url: string, options: RequestOptions, timeout = 5000): Promise<XMLHttpRequest> {
-    const { method, data, headers } = options;
+  delete = this.createRequest(METHODS.DELETE);
+
+  request(url: string, options: RequestOptions): Promise<XMLHttpRequest> {
+    const { method, data, headers, timeout = 5000 } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
