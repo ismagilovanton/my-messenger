@@ -10,11 +10,17 @@ import { Form } from '../../../../components/Form/form';
 import ArrowRight from '../../../../../public/icons/arrow-right.svg';
 import Clip from '../../../../../public/icons/clip.svg';
 import { required } from '../../../../framework/Validation';
-import { formDataToObject } from '../../../../utils/formdata.util';
+
+
+interface ChatFeedInputProps {
+  events: {
+    submit: (e: Event) => void,
+  }
+}
+
 export class ChatFeedInput extends Block {
   
-  constructor() {
-
+  constructor(tagName = 'div', props: ChatFeedInputProps, ) {
     const input = new InputComponent({
       props: {
         type: 'text',
@@ -63,30 +69,21 @@ export class ChatFeedInput extends Block {
         header: icon,
         submit: send,
       },
-      events: {
-        submit: (e) => {
-          const target = e.currentTarget;
-          if (target instanceof HTMLFormElement) {
-            const formData = new FormData(target);
-            const data = formDataToObject(formData);           
-            console.log('Submit form', data);
-          }
-        },
-      },
+      events: props.events,
     });
 
-    super('div', 
+    super(tagName, 
       { 
         children: {
           form,
         },
       },
     );
+
   }
 
   override render() {
     return template;
   }
-
 }
 

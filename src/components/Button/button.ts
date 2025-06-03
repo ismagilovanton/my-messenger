@@ -6,7 +6,7 @@ import './button.scss';
 
 interface ButtonProps {
   attributes?: { 
-    class: 'button-text' | 'button-main' | 'button-inline';
+    class: 'button-text' | 'button-main' | 'button-inline' | string;
     id: string;
     name: string;
     type?: string

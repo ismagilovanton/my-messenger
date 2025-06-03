@@ -6,22 +6,15 @@ import { Form } from '../../components/Form/form';
 
 import template from './profile-password.tmpl';
 import { ProfilePasswordController } from '../../controllers/profile/profile-password.controller';
-import { formDataToObject } from '../../utils/formdata.util';
-
-interface ProfilePasswordProps { 
-  children: {
-    form: Form;
-  };
-}
 
 export class ProfilePassword extends Block {
-  constructor(props: ProfilePasswordProps) {
+  constructor() {
 
-    const controller = new ProfilePasswordController();
+    const profilePasswordController = new ProfilePasswordController();
 
     const formPasswordInputs = [
-      { label: 'Новый пароль', error: '', value: '', type: 'password', name: 'newPassword' },
-      { label: 'Подтверждение пароля', error: '', value: '', type: 'password', name: 'confirmPassword' },
+      { label: 'Старый пароль', error: '', value: '', type: 'password', name: 'oldPassword', placeholder: 'Введите старый пароль' },
+      { label: 'Новый пароль', error: '', value: '', type: 'password', name: 'newPassword', placeholder: 'Введите новый пароль' },
     ];
 
     const inputsPassword = formPasswordInputs.map(el=> {
@@ -59,15 +52,15 @@ export class ProfilePassword extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            const data = formDataToObject(formData);           
-            controller.updatePassword(data);
+           
+            profilePasswordController.updatePassword(formData).catch((error) => console.log(error));
           }
         },
       },
     });
     
 
-    super('div', { ...props,
+    super('div', {
       children: {
         form: formPassword,
       },

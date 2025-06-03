@@ -3,6 +3,17 @@ import template from './main.tmpl';
 import './main.scss';
 
 
+
+import hbs from 'handlebars';
+
+hbs.registerHelper('json', function (context) {
+  return JSON.stringify(context, null, 2);
+});
+
+hbs.registerHelper('eq', function (a, b) {
+  return a == b;
+});
+
 interface MainLayoutProps {
   children: {
     sidebar?: Block,

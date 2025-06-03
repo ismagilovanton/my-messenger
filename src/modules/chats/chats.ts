@@ -3,8 +3,9 @@ import { ChatComponent } from './components/chat/chat';
 import './chats.scss';
 
 import template from './chats.tmpl';
-import { chatsMock } from '../../mocks/chats.mock';
 import { ChatController } from '../../controllers/home/chats/chat.controller';
+import { Button } from '../../components/Button/button';
+import { connect, mapChatsToProps } from '../../utils/connect.util';
 
 interface ChatsListProps {
   items?: {
@@ -15,18 +16,42 @@ interface ChatsListProps {
   };
   [key: string]: unknown; // Для дополнительных свойств, если они есть
 }
-export class ChatsList extends Block {
+class ChatsList extends Block {
 
-  private controller: ChatController;
+  private chatController: ChatController;
 
-  constructor(props: ChatsListProps) {
-    const chats = chatsMock.map(chatMock => 
-      new ChatComponent({ props: chatMock, attributes: { 'data-id': chatMock.id.toString() } }));
+  constructor(tagName: string = 'ul', props?: ChatsListProps) {
+   
+    const submit = new Button({
+      attributes: {
+        id: 'submit',
+        class: 'button-main',
+        type: 'submit',
+        name: 'submit',
+      },
+      props: {
+        text: 'Создать чат',
+      },
+      events: {
+        click: (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const chatName = prompt('Введите название чата:');
+          if (chatName) {
+            this.chatController.createChat(chatName).catch((error) => console.log(error));
+          }
+        },
+      },
+    });
     
-    super('ul', {
+    super(tagName, {
       ...props,
+      children: {
+        button: submit,
+      },
       items: { 
-        chats: chats, 
+        chats: [], 
       },
       events: {
         click: (e: Event) => {
@@ -34,13 +59,14 @@ export class ChatsList extends Block {
           const id = Number(target?.getAttribute('data-id'));
       
           if (id) {
-            this.controller.selectChat(id);
+            this.chatController.selectChat(id);
           }
         },
       },
     });
 
-    this.controller = new ChatController();
+    this.chatController = new ChatController();
+    this.chatController.getChats().catch((error) => console.log(error));
 
   }
 
@@ -62,7 +88,10 @@ export class ChatsList extends Block {
       });
     });
   }
-
-  
 }
+
+export default connect<ChatsListProps>(mapChatsToProps)(ChatsList);
+
+
+
 

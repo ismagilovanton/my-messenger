@@ -1,34 +1,22 @@
+import { UserAPI } from '../../api/user.api';
+import { UpdateProfileRequest } from '../../types/user.types';
 
-export interface ChangeProfilePayload {
-  email: string
-  login: string
-  first_name: string
-  second_name: string
-  display_name: string
-  phone: string
-  oldPassword: string
-  newPassword: string
-}
+
 
 export class ProfileDataService {
-  private profileData: ChangeProfilePayload = {
-    email: 'ivan@example.com',
-    login: 'ivanivanov',
-    first_name: 'Иван',
-    second_name: 'Иванов',
-    display_name: 'Иван',
-    phone: '89991234567',
-    oldPassword: '12345678Aa!',
-    newPassword: '12345678Aa!',
-  };
 
-  getProfile(): ChangeProfilePayload {
-    return this.profileData;
+  private api: UserAPI;
+
+  constructor() { 
+    this.api = new UserAPI();
   }
 
-  updateProfile(profile: Record<string, unknown>) {
-    this.profileData = { ...this.profileData, ...profile };
-    console.log(this.profileData);
+
+  async updateProfile(profile: UpdateProfileRequest) {
+    const updatedUser = await this.api.updateProfile(profile);
+
+    return updatedUser;
+    
   }
 }
 

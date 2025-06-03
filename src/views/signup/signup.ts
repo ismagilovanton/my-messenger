@@ -1,4 +1,4 @@
-import { SignUpController } from '../../controllers/auth/signup.controller';
+import { AuthController } from '../../controllers/auth/auth.controller.ts';
 import Block from '../../framework/Block';
 import { Button } from '../../components/Button/button.ts';
 import { InputComponent } from '../../components/Input/input.ts';
@@ -6,24 +6,27 @@ import { Form } from '../../components/Form/form.ts';
 import { email, login, name, password, phone } from '../../framework/Validation.ts';
 
 import template from './signup.tmpl';
-import { formDataToObject } from '../../utils/formdata.util.ts';
+import { connect, mapUserToProps } from '../../utils/connect.util.ts';
 
 interface SignUpProps {
   children?: {
     form: Form
+  },
+  props: {
+    error: string
   }
 }
 
 export class SignUpView extends Block {
 
-  private controller: SignUpController;
+  private controller: AuthController;
 
-  constructor(props?: SignUpProps) {
-    super('div', {
+  constructor(tagName = 'div', props?: SignUpProps) {
+    super(tagName, {
       ...props,
     });
 
-    this.controller = new SignUpController();
+    this.controller = new AuthController(this);
 
     const formInputs = [
       {
@@ -43,15 +46,15 @@ export class SignUpView extends Block {
         validationRules: [name],
       },
       { 
-        label: 'Телефон', error: '', value: '+7 (909) 967 30 30', type: 'phone', name: 'phone',
+        label: 'Телефон', error: '', value: '89832044869', type: 'phone', name: 'phone',
         validationRules: [phone],
       },
       { 
-        label: 'Пароль', error: '', value: '12345678', type: 'password', name: 'password',
+        label: 'Пароль', error: '', value: '12345678Aa!', type: 'password', name: 'password',
         validationRules: [password],
       },
       { 
-        label: 'Пароль еще раз', error: '', value: '12345678', type: 'password', name: 'repeat_password',
+        label: 'Пароль еще раз', error: '', value: '12345678Aa!', type: 'password', name: 'repeat_password',
         validationRules: [password],
       },
     ];
@@ -91,8 +94,7 @@ export class SignUpView extends Block {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            const data = formDataToObject(formData);           
-            this.controller.signUp(data);
+            this.controller.signUp(formData).catch((error) => console.log(error));
           }
         },
       },
@@ -108,3 +110,4 @@ export class SignUpView extends Block {
   }
 }
 
+export default connect<{ name: string }>(mapUserToProps)(SignUpView);
