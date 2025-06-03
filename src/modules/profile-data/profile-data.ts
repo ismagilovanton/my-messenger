@@ -8,33 +8,46 @@ import {
   email,
   login,
   name,
-  password,
   phone,
 } from '../../framework/Validation';
 
 import { ProfileDataController } from '../../controllers/profile/profile-data.controller';
-import { formDataToObject } from '../../utils/formdata.util';
+import store from '../../stores/store';
+import { connect, mapFullUserToProps } from '../../utils/connect.util';
+import { User } from '../../types/user.types';
 
 interface ProfileDataProps {
+  props: {
+    user?: User | null
+  },
   children?: {
     form: Form;
   };
 }
 
-export class ProfileData extends Block {
-  private controller: ProfileDataController;
+class ProfileData extends Block {
+  private profileDataController: ProfileDataController;
 
 
-  constructor(props: ProfileDataProps) {
-    const controller = new ProfileDataController();
+  constructor(tagName = 'div', props: ProfileDataProps) {
+    const state = store.getState();
 
-    const profile = controller.loadProfile();
+    const user = state.user;
+
+    super(tagName, {
+      ...props, 
+      props: {
+        user,
+      },
+    });
+
+    this.profileDataController = new ProfileDataController();
 
     const formInputs = [
       {
         label: 'Почта',
         error: '',
-        value: profile.email || '',
+        value: user?.email || '',
         type: 'email',
         name: 'email',
         placeholder: 'Введите почту',
@@ -43,7 +56,7 @@ export class ProfileData extends Block {
       {
         label: 'Логин',
         error: '',
-        value: profile.login || '',
+        value: user?.login || '',
         type: 'text',
         name: 'login',
         placeholder: 'Введите логин',
@@ -52,7 +65,7 @@ export class ProfileData extends Block {
       {
         label: 'Имя',
         error: '',
-        value: profile.first_name || '',
+        value: user?.first_name || '',
         type: 'text',
         name: 'first_name',
         placeholder: 'Введите имя',
@@ -61,7 +74,7 @@ export class ProfileData extends Block {
       {
         label: 'Фамилия',
         error: '',
-        value: profile.second_name || '',
+        value: user?.second_name || '',
         type: 'text',
         name: 'second_name',
         placeholder: 'Введите фамилию',
@@ -70,7 +83,7 @@ export class ProfileData extends Block {
       {
         label: 'Имя в чате',
         error: '',
-        value: profile.display_name || '',
+        value: user?.display_name || '',
         type: 'text',
         name: 'display_name',
         placeholder: 'Введите имя в чате',
@@ -79,29 +92,11 @@ export class ProfileData extends Block {
       {
         label: 'Телефон',
         error: '',
-        value: profile.phone || '',
+        value: user?.phone || '',
         type: 'phone',
         name: 'phone',
         placeholder: 'Введите телефон',
         validationRules: [phone],
-      },
-      {
-        label: 'Старый пароль',
-        error: '',
-        value: profile.oldPassword || '',
-        type: 'password',
-        name: 'oldPassword',
-        placeholder: 'Введите пароль',
-        validationRules: [password],
-      },
-      {
-        label: 'Новый пароль',
-        error: '',
-        value: profile.newPassword || '',
-        type: 'password',
-        name: 'newPassword',
-        placeholder: 'Введите пароль',
-        validationRules: [password],
       },
     ];
 
@@ -137,23 +132,17 @@ export class ProfileData extends Block {
       },
       events: {
         submit: (e) => {
+          e.preventDefault();
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            const data = formDataToObject(formData);           
-            this.controller.updateProfile(data);
+            this.profileDataController.updateProfile(formData);
           }
         },
       },
     });
 
-    super('div', {
-      ...props,
-      children: {
-        form: form,
-      },
-    });
-    this.controller = controller;
+    this.setChildren({ form: form });
   }
 
   override render(): string {
@@ -161,3 +150,5 @@ export class ProfileData extends Block {
   }
 }
 
+
+export default connect<{ user: User | null }>(mapFullUserToProps)(ProfileData);

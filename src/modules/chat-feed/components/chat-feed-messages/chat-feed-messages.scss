@@ -1,5 +1,35 @@
 .messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   height: 100%;
+  overflow-y: auto;
+  padding: 20px;
   width: 100%;
-}
 
+  .message {
+    align-self: flex-start;
+    background: $accent;
+    border-radius: 12px;
+    color: white;
+    max-width: 70%;
+    padding: 10px 15px;
+
+    &--own {
+      align-self: flex-end;
+      background: $selection;
+    }
+
+    &__content {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    &__time {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      margin-top: 5px;
+      text-align: right;
+    }
+  }
+}

@@ -7,12 +7,14 @@
     outline: none;
     padding: 12px;
     width: 100%;
+    cursor: pointer;
   }
 
   &-text {
     background: none;
     border: none;
     outline: none;
+    cursor: pointer;
 
     &:hover {
       background-color: $selection;
@@ -28,9 +30,34 @@
     outline: none;
     padding: 0;
 
+    &.danger {
+      color: $danger;
+    }
+
+    &:hover {
+      color: $main;
+    }
+  }
+
+  &-icon {
+    background: $main;
+    border: none;
+    color: $gray;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+
     &:hover {
       color: $main;
     }
   }
 }
-

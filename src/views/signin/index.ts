@@ -3,20 +3,27 @@ import '../../static/index.ts';
 
 import { AuthLayout } from '../../layouts/auth/auth.ts';
 
-import { SignInView } from './signin.ts';
-import { renderDOM } from '../../utils/render.util.ts';
+import  SignInView  from './signin.ts';
 
+import Block from '../../framework/Block.ts';
+export class SignInPage extends Block {
+  constructor() {
+    super('div');
 
-document.addEventListener('DOMContentLoaded', () => {
+    const body = new SignInView();
 
-  const body = new SignInView({});
+    const layout = new AuthLayout({
+      children: {
+        body,
+      },
+    }); 
 
-  const layout = new AuthLayout({
-    children: {
-      body,
-    },
-  });
+    this.setChildren({
+      layout,
+    });
+  }
 
-  renderDOM('#app', layout);
-});
-
+  override render() {
+    return '{{{layout}}}';
+  }
+} 

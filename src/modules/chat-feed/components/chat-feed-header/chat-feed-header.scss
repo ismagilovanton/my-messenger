@@ -7,11 +7,9 @@
 
   &__actions {
     margin-left: auto;
-
-    .menu {
-     padding: 0 11px;
-    }
-
+    display: flex;
+    gap: 16px;
+    align-items: center;
   }
 
   &__info {
@@ -35,7 +33,4 @@
       font-weight: 600;
     }
   }
-
-
 }
-

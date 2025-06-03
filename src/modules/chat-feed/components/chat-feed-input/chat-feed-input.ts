@@ -6,15 +6,24 @@ import { InputComponent } from '../../../../components/Input/input';
 import { IconComponent } from '../../../../components/Icon/icon';
 import { ButtonIcon } from '../../../../components/ButtonIcon/buttonIcon';
 import { Form } from '../../../../components/Form/form';
+import { ChatFeedController } from '../../../../controllers/home/chats-feed/chats-feed.controller';
 
 import ArrowRight from '../../../../../public/icons/arrow-right.svg';
 import Clip from '../../../../../public/icons/clip.svg';
 import { required } from '../../../../framework/Validation';
 import { formDataToObject } from '../../../../utils/formdata.util';
-export class ChatFeedInput extends Block {
-  
-  constructor() {
 
+
+interface ChatFeedInputProps {
+  events: {
+    submit: (e: Event) => void,
+  }
+}
+
+export class ChatFeedInput extends Block {
+  private chatFeedController: ChatFeedController;
+  
+  constructor(tagName = 'div', props: ChatFeedInputProps) {
     const input = new InputComponent({
       props: {
         type: 'text',
@@ -63,16 +72,7 @@ export class ChatFeedInput extends Block {
         header: icon,
         submit: send,
       },
-      events: {
-        submit: (e) => {
-          const target = e.currentTarget;
-          if (target instanceof HTMLFormElement) {
-            const formData = new FormData(target);
-            const data = formDataToObject(formData);           
-            console.log('Submit form', data);
-          }
-        },
-      },
+      events: props.events,
     });
 
     super('div', 
@@ -82,11 +82,12 @@ export class ChatFeedInput extends Block {
         },
       },
     );
+
+    this.chatFeedController = new ChatFeedController();
   }
 
   override render() {
     return template;
   }
-
 }
 
