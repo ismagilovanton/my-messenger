@@ -1,10 +1,8 @@
 export default `
 
-<div class="messages">
-{{>placeholder}}
-</div>
+    <div class="messages">
+        {{{placeholder}}}
+    </div>
 
+`;
 
-
-
-`
