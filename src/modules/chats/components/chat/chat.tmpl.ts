@@ -7,7 +7,7 @@ export default `
      <div class="chat__info">
         <div class="chat__info--title">
             <div class="name">{{chat.title}}</div>
-            <div class="date">{{chat.last_message.time }}</div>
+            <div class="date">{{formatDate chat.last_message.time }}</div>
         </div>
         <div class="chat__info--content">
             <div class="message">
