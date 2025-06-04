@@ -32,8 +32,12 @@ class ChatSettings extends Block {
         name: 'test',
       },
       events: {
-        click: () => {
-          this.chatSettingsController.closeSettings();
+        click: (e: Event) => {
+          e.preventDefault();
+          const target = e.target as HTMLButtonElement;
+          if (target instanceof HTMLButtonElement) {
+            this.chatSettingsController.closeSettings();
+          }
         },
       },
     });
