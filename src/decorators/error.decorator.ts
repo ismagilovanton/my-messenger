@@ -23,3 +23,4 @@ export function handleError(handler: ErrorHandler) {
     return descriptor;
   };
 }
+

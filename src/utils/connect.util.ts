@@ -110,3 +110,4 @@ export function mapMessagesToProps(state: Indexed) {
     selectedChat: state.selectedChat,
   };
 }
+

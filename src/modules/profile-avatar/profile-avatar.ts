@@ -66,3 +66,4 @@ class ProfileAvatar extends Block {
 }
 
 export default connect<{ user: User | null }>(mapFullUserToProps)(ProfileAvatar);
+

@@ -42,3 +42,4 @@ export class ErrorPage extends Block {
     return '{{{errorCard}}}';
   }
 }
+

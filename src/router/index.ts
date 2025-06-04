@@ -61,3 +61,4 @@ router
   .use('/', IndexPage);
 
 export default router;
+

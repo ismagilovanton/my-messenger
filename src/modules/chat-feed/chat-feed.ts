@@ -30,9 +30,22 @@ class ChatsFeed extends Block {
   private chatFeedController: ChatFeedController;
 
   constructor(tagName?: string, props?: ChatsFeedProps) {
+    super(tagName ?? 'div', {
+      ...props,
+    });
+
+    const state = store.getState();
+    const selectedChat = state?.selectedChat;
+    const messagesList = state.messages;
+
+    const chatFeedController = new ChatFeedController();
+    this.chatFeedController = chatFeedController;
 
     const header = new ChatHeader();
-    const messages = new ChatFeedMessages();
+    const messages = new ChatFeedMessages('div', {
+      messages: messagesList,
+      selectedChat: selectedChat || null,
+    });
     const input = new ChatFeedInput('div', {
       events: {
         submit: (e) => {
@@ -52,10 +65,11 @@ class ChatsFeed extends Block {
         },
       },
     });
-    
-    
-    super(tagName ?? 'div', {
-      ...props,
+
+    this.wsService = new WebSocketService({
+      onMessage: this.handleMessage.bind(this),
+      onError: this.handleError.bind(this),
+      onHistory: this.handleHistory.bind(this),
     });
     
     this.setChildren( {
@@ -63,13 +77,8 @@ class ChatsFeed extends Block {
       messages,
       input,
     });
-    
-    this.chatFeedController = new ChatFeedController();
-
-    this.wsService = new WebSocketService({
-      onMessage: this.handleMessage.bind(this),
-      onError: this.handleError.bind(this),
-      onHistory: this.handleHistory.bind(this),
+    this.setProps({
+      selectedChat:selectedChat,
     });
   }
 
@@ -77,8 +86,9 @@ class ChatsFeed extends Block {
 
     const state = store.getState();
     if (state.selectedChat) {
-      this.wsService.close();
-      // Run async logic without awaiting to keep method synchronous
+      if (this.wsService) {
+        this.wsService.close();
+      }
       this.connectToChat().catch(error => {console.log(error);});
     }
 
@@ -87,7 +97,7 @@ class ChatsFeed extends Block {
 
   async connectToChat() {
     const state = store.getState();
-    const userId = state.user?.id; // Добавьте получение ID пользователя
+    const userId = state.user?.id;
     const chatId = state.selectedChat?.id;
     
     if (chatId && userId) {
@@ -117,3 +127,4 @@ class ChatsFeed extends Block {
 
 
 export default connect<{ selectedChat: Chat | null }>(mapSelectedChatToProps)(ChatsFeed);
+

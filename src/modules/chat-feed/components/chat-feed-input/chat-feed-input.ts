@@ -20,7 +20,7 @@ interface ChatFeedInputProps {
 
 export class ChatFeedInput extends Block {
   
-  constructor(tagName = 'div', props: ChatFeedInputProps, ) {
+  constructor(tagName: string, props: ChatFeedInputProps ) {
     const input = new InputComponent({
       props: {
         type: 'text',
@@ -86,4 +86,5 @@ export class ChatFeedInput extends Block {
     return template;
   }
 }
+
 

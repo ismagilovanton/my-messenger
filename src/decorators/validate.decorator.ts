@@ -46,3 +46,4 @@ export const rulesSignIn = [
     rules: [required, password],
   },
 ];
+

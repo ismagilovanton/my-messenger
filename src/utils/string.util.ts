@@ -11,3 +11,4 @@ export function trim(str: string, chars = ''): string {
   return str.replace(pattern, '');
 
 }
+

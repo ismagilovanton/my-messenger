@@ -36,3 +36,4 @@ export class ChatController {
     return chat;
   }
 }
+

@@ -14,3 +14,4 @@ export function renderDOM(query: string, component: Block): Element | null {
   return root;
 }
 
+

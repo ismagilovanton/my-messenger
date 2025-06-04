@@ -36,3 +36,4 @@ export interface ChatMessage {
   is_read: boolean,
   file: File | null
 }
+

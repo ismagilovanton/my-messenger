@@ -45,3 +45,4 @@ class ChatHeader extends Block {
 }
 
 export default connect<{ selectedChat: Chat | null }>(mapSelectedChatToProps)(ChatHeader);
+

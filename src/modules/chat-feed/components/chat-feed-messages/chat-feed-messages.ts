@@ -20,6 +20,7 @@ class ChatFeedMessages extends Block {
     
     const state = store.getState();
     const currentUserId = state.user?.id;
+    const messages = state.messages;
     const placeholder = new Placeholder({
       props: {
         text: 'Чат пуст',
@@ -30,6 +31,7 @@ class ChatFeedMessages extends Block {
       ...props,
       props: {
         currentUserId: currentUserId,
+        messages,
       },
       children: {
         placeholder,
@@ -43,3 +45,4 @@ class ChatFeedMessages extends Block {
 }
 
 export default connect<{ messages: Array<ChatMessage>, selectedChat: Chat | null }>(mapMessagesToProps)(ChatFeedMessages);
+

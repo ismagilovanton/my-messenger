@@ -21,6 +21,8 @@ class WebSocketService {
 
   private token?: string;
 
+  private messageQueue: unknown[] = []; // Добавляем очередь сообщений
+
   constructor(events: WebSocketEvents = {}) {
     this.events = events;
   }
@@ -51,7 +53,14 @@ class WebSocketService {
       throw new Error('WebSocket не подключен');
     }
 
-    this.socket.send(JSON.stringify(message));
+    if (this.socket.readyState === WebSocket.CONNECTING) {
+      this.messageQueue.push(message);
+      return;
+    }
+
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    }
   }
 
   public close() {
@@ -75,7 +84,13 @@ class WebSocketService {
     this.socket.addEventListener('open', () => {
       console.log('WebSocket соединение установлено');
       this.events.onOpen?.();
-      
+    
+      while (this.messageQueue.length > 0) {
+        const message = this.messageQueue.shift();
+        this.send(message);
+      }
+
+      // Запрашиваем историю сообщений
       this.send({
         content: '0',
         type: 'get old',
@@ -83,18 +98,22 @@ class WebSocketService {
     });
 
     this.socket.addEventListener('message', (event) => {
-      const data = JSON.parse(event.data);
-
-      if (data.type === 'user connected') {
-        return;
-      }
-
-      if (Array.isArray(data)) {
+      try {
+        const data = JSON.parse(event.data);
+  
+        if (data.type === 'user connected') {
+          return;
+        }
+  
+        if (Array.isArray(data)) {
+          
+          return this.events.onHistory?.(data);
+        }
         
-        return this.events.onHistory?.(data);
+        this.events.onMessage?.(data);
+      } catch (error) {
+        console.log(error);
       }
-      
-      this.events.onMessage?.(data);
     });
 
     this.socket.addEventListener('error', (event) => {
@@ -113,3 +132,4 @@ class WebSocketService {
 }
 
 export default WebSocketService;
+

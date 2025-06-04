@@ -13,18 +13,24 @@ interface RequestOptions {
   headers?: Record<string, string>;
   timeout?: number;
 }
-  
+
+export const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
 
 import { queryString } from '../utils/object.util';
 
 export class HTTPTransport {
 
-  constructor(private readonly apiEndpoint?: string) {}
+
+  private baseUrl: string;
+
+  constructor(private readonly apiEndpoint?: string) {
+    this.baseUrl = `${API_ENDPOINT}${this.apiEndpoint}`;
+  }
   
   private createRequest(method: Method) {
     return (url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> => {
       
-      const fullUrl = this.apiEndpoint ? `${this.apiEndpoint}${url}` : url;
+      const fullUrl = this.baseUrl ? `${this.baseUrl}${url}` : url;
 
       return this.request(fullUrl, { ...options, method });
     };
@@ -100,4 +106,5 @@ export class HTTPTransport {
     });
   }
 }
+
 

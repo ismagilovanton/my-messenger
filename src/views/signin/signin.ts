@@ -99,3 +99,4 @@ export class SignInView extends Block {
 
 
 export default connect<{ user: User }>(mapFullUserToProps)(SignInView);
+

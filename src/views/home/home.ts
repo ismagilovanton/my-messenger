@@ -48,3 +48,4 @@ class HomeView extends Block {
 }
 
 export default connect<{ chatSettingState: boolean }>(mapChatSettingsStateToProps)(HomeView);
+

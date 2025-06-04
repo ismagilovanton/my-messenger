@@ -1,13 +1,22 @@
+import { API_ENDPOINT } from '../../../../framework/Fetch';
+
 export default `
 <div class="chat" id="chat-{{chat.id}}">
      <div class="chat__avatar">
-     <img src="{{chat.avatar}}">
-     </div>
-     
+    
+
+            {{#if chat.avatar}}
+                <img src="${API_ENDPOINT}/resources/{{chat.avatar}}" alt="{{chat.title}}" />
+            {{else}}
+                <div class="user-card__avatar-placeholder">
+                    {{chat.title.[0]}}
+                </div>
+            {{/if}}
+      </div>
      <div class="chat__info">
         <div class="chat__info--title">
             <div class="name">{{chat.title}}</div>
-            <div class="date">{{chat.last_message.time }}</div>
+            <div class="date">{{formatDate chat.last_message.time }}</div>
         </div>
         <div class="chat__info--content">
             <div class="message">
@@ -25,5 +34,6 @@ export default `
  
 </div> 
 `;
+
 
 

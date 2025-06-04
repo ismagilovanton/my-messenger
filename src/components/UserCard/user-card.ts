@@ -24,3 +24,4 @@ export class UserCard extends Block {
     return template;
   }
 }
+

@@ -126,3 +126,4 @@ class ProfileView extends Block {
 
 export default connect<{ user: User | null }>(mapFullUserToProps)(ProfileView);
 
+
