@@ -35,5 +35,7 @@ export default defineConfig({
         index: resolve(__dirname, "/index.html"),
       },
     },
+    copyPublicDir: true,
+    assetsInclude: ['./netlify.toml'],
   },
 });
