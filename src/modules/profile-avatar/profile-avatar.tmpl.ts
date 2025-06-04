@@ -1,4 +1,5 @@
 import Picture from '../../../public/icons/picture.svg';
+import { API_ENDPOINT } from '../../framework/Fetch';
 
 export default `
 <div class="profile__avatar">
@@ -9,7 +10,7 @@ export default `
 
     <div class="profile__avatar-wrapper">
       {{#if user.avatar}}
-        <img src="https://ya-praktikum.tech/api/v2/resources/{{user.avatar}}" alt="avatar" class="profile__avatar-image">
+        <img src="${API_ENDPOINT}/resources/{{user.avatar}}" alt="avatar" class="profile__avatar-image">
       {{else}}
         <img src="${Picture}" alt="placeholder" class="profile__avatar-placeholder">
       {{/if}}

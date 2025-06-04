@@ -1,8 +1,10 @@
+import { API_ENDPOINT } from '../../framework/Fetch';
+
 export default `
    <div class="user-card" id="user-{{id}}">
         <div class="user-card__avatar">
             {{#if user.avatar}}
-                <img src="https://ya-praktikum.tech/api/v2/resources/{{user.avatar}}" alt="{{user.display_name}}" />
+                <img src="${API_ENDPOINT}/resources/{{user.avatar}}" alt="{{user.display_name}}" />
             {{else}}
                 <div class="user-card__avatar-placeholder">
                     {{user.first_name.[0]}}{{user.second_name.[0]}}

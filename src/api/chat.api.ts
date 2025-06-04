@@ -3,13 +3,10 @@ import { BaseAPI } from './base.api';
 import { HTTPTransport } from '../framework/Fetch';
 import { CreateChatRequest, CreateChatResponse } from '../types/chat.types';
 
-
-const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
-
 export class ChatAPI extends BaseAPI {
 
   constructor() {
-    super(new HTTPTransport(`${API_ENDPOINT}/chats`));
+    super(new HTTPTransport('/chats'));
   }
 
   async getChats() {

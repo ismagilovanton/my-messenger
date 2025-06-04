@@ -3,12 +3,10 @@ import { SignInRequest, SignUpRequest, SignUpResponse } from '../types/auth.type
 import { User } from '../types/user.types';
 import { BaseAPI } from './base.api';
 
-const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
-
 export class AuthAPI extends BaseAPI {
 
   constructor() {
-    super(new HTTPTransport(`${API_ENDPOINT}/auth`));
+    super(new HTTPTransport('/auth'));
   }
 
   async signin(payload: SignInRequest): Promise<any> {

@@ -2,11 +2,10 @@ import { HTTPTransport } from '../framework/Fetch';
 import { UpdatePasswordRequest, UpdateProfileRequest } from '../types/user.types';
 import { BaseAPI } from './base.api';
 
-const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
 
 export class UserAPI extends BaseAPI {
   constructor() {
-    super(new HTTPTransport(`${API_ENDPOINT}/user`));
+    super(new HTTPTransport('/user'));
   }
 
 
