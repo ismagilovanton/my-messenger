@@ -83,18 +83,22 @@ class WebSocketService {
     });
 
     this.socket.addEventListener('message', (event) => {
-      const data = JSON.parse(event.data);
-
-      if (data.type === 'user connected') {
-        return;
-      }
-
-      if (Array.isArray(data)) {
+      try {
+        const data = JSON.parse(event.data);
+  
+        if (data.type === 'user connected') {
+          return;
+        }
+  
+        if (Array.isArray(data)) {
+          
+          return this.events.onHistory?.(data);
+        }
         
-        return this.events.onHistory?.(data);
+        this.events.onMessage?.(data);
+      } catch (error) {
+        console.log(error);
       }
-      
-      this.events.onMessage?.(data);
     });
 
     this.socket.addEventListener('error', (event) => {
