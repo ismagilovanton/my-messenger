@@ -1,11 +1,12 @@
-import { SignInController } from '../../controllers/auth/signin.controller';
+import { AuthController } from '../../controllers/auth/auth.controller.ts';
 import Block from '../../framework/Block';
 import { login, password, required } from '../../framework/Validation.ts';
 import { InputComponent } from '../../components/Input/input.ts';
 import { Form } from '../../components/Form/form.ts';
 import { Button } from '../../components/Button/button';
 import template from './signin.tmpl';
-import { formDataToObject } from '../../utils/formdata.util.ts';
+import { connect, mapFullUserToProps } from '../../utils/connect.util.ts';
+import { User } from '../../types/user.types.ts';
 
 interface SignInProps {
   children?: {
@@ -13,13 +14,15 @@ interface SignInProps {
   }
 }
 export class SignInView extends Block {
-  private controller: SignInController;
+  private controller: AuthController;
 
-  constructor(props: SignInProps) {
+  constructor(tagName = 'div', props?: SignInProps) {
     
-    super('div', props);
+    super(tagName, {
+      ...props,
+    });
 
-    this.controller = new SignInController();
+    this.controller = new AuthController(this);
 
     const formInputs = [
       { 
@@ -73,12 +76,11 @@ export class SignInView extends Block {
         inputs,
       },
       events: {
-        submit: (e) => {
+        submit:  (e) => {
           const target = e.currentTarget;
           if (target instanceof HTMLFormElement) {
             const formData = new FormData(target);
-            const data = formDataToObject(formData);            
-            this.controller.signIn(data);
+            this.controller.signIn(formData).catch((error) => console.log(error));
           }
         },
       },
@@ -94,4 +96,7 @@ export class SignInView extends Block {
     return template;
   }
 }
+
+
+export default connect<{ user: User }>(mapFullUserToProps)(SignInView);
 

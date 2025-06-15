@@ -9,6 +9,7 @@
 * Handlebars
 * Eslint
 * Stylelint
+* WebSocket
 
 ## Цель проекта
 Реализация веб-мессенджера для обмена сообщениями

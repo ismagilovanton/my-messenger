@@ -1,6 +1,16 @@
+import { ChatAPI } from '../../../api/chat.api';
+
 export class ChatFeedService {
-  sendMessage() {
-    console.log('Send message');
-  }    
+
+  private api: ChatAPI;
+
+  constructor() {
+    this.api = new ChatAPI();
+  }   
+
+  async getChatToken(id: number) {
+    return this.api.getChatToken({ id });
+  }
 }
+
 

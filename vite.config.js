@@ -29,17 +29,13 @@ export default defineConfig({
   },
   build: {
     outDir: resolve(__dirname, "./dist"), // Specify the output directory
+    target: 'esnext',
     rollupOptions: {
       input: {
         index: resolve(__dirname, "/index.html"),
-        //
-        notFound: resolve(__dirname, "/notFound.html"),
-        error: resolve(__dirname, "/error.html"),
-        home: resolve(__dirname, "/home.html"),
-        profile: resolve(__dirname, "/profile.html"),
-        signin: resolve(__dirname, "/signin.html"),
-        signup: resolve(__dirname, "/signup.html"),
       },
     },
+    copyPublicDir: true,
+    assetsInclude: ['./netlify.toml'],
   },
 });

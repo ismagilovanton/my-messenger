@@ -14,6 +14,9 @@ interface ButtonIconProps {
       alt: string
     }
   }
+  events?: {
+    click: () => void
+  }
 }
 
 export  class ButtonIcon extends Block {
@@ -25,4 +28,5 @@ export  class ButtonIcon extends Block {
     return template;
   }
 }
+
 

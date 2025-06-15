@@ -1,19 +1,17 @@
 import { ProfileDataService } from '../../services/profile/profile-data.service';
+import { UpdateProfileRequest } from '../../types/user.types';
 
 export class ProfileController {
-  private service: ProfileDataService;
+  private profileDataService: ProfileDataService;
 
 
   constructor() {
-    this.service = new ProfileDataService();
+    this.profileDataService = new ProfileDataService();
   }
 
-  loadProfile() {
-    return this.service.getProfile();
-  }
-
-  updateProfile(profile: Record<string, unknown>) {
-    this.service.updateProfile(profile);
+  async updateProfile(profile: UpdateProfileRequest) {
+    await this.profileDataService.updateProfile(profile);
   }
 }
+
 

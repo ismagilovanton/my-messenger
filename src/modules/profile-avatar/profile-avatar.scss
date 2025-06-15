@@ -1,0 +1,65 @@
+.profile__avatar {
+  height: 130px;
+  margin: 0 auto;
+  position: relative;
+  width: 130px;
+
+  &-wrapper {
+    background: $light-gray;
+    border-radius: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  &-image {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  &-placeholder {
+    height: 50%;
+    left: 50%;
+    opacity: 0.5;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%; // Уменьшаем размер placeholder иконки
+  }
+
+  &-overlay {
+    align-items: center;
+    background: rgb(0 0 0 / 50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.3s;
+    width: 100%;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-input {
+    display: none;
+  }
+
+  &-change {
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+  }
+
+
+}
+

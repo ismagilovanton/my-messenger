@@ -18,31 +18,21 @@
     width: 100%;
   }
 
-  &__avatar {
-    align-items: center;
-    background: $gray;
-    border-radius: 100%;
-    display: flex;
-    height: 130px;
-    justify-content: center;
-    padding: 40px;
-    width: 130px;
-
-    img {
-      height: 100%;
-      width: 100%;
-    }
-  }
-
   &__actions {
+    align-items: start;
     color: $gray;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     margin-top: auto;
     width: 100%;
 
     &--item {
       color: $gray;
+      display: flex;
       padding: 10px 0;
+      width: 100%;
 
       a {
         color: $danger;
@@ -51,6 +41,16 @@
       &.danger {
         color: $danger;
       }
+    }
+  }
+}
+
+.list {
+  &__item {
+    border-bottom: 1px solid $gray;
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }

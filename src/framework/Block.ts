@@ -26,7 +26,7 @@ export default class Block {
   
   protected _props: PropsWithChildren | null = null;
 
-  private _children: Record<string, any> = {};
+  protected _children: Record<string, any> = {};
 
   private _id = Math.floor(100000 + +Math.random() * 9000000);
 
@@ -142,7 +142,7 @@ export default class Block {
     });
   }
 
-  private _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {    
     const element =  document.createElement(tagName);
 
     if (this._props?.settings?.withInternalID) {
@@ -271,7 +271,7 @@ export default class Block {
     oldProps: Record<string, unknown>, 
     newProps: Record<string, unknown>,
   ) {
-    console.log({ oldProps, newProps });
+    console.log(oldProps, newProps);
     return true;
   }
 
@@ -285,6 +285,21 @@ export default class Block {
     if (this._eventBus) {
       this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this._props);
     }
+  }
+
+  setItems(nextItems: Record<string, any[]>) {
+    if (!nextItems) return;
+
+    const oldItems: Record<string, any[]> = { ...this._items };
+    // console.log('Old items:', oldItems, 'New items:', nextItems);
+
+    this._items = this._makePropsProxy({ ...this._items, ...nextItems }) as Record<string, any[]>;
+
+    // Emit the FLOW_CDU event to trigger re-rendering
+    if (this._eventBus) {
+      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldItems, this._items);
+    }
+
   }
 
   setChildren(nextChildren: Record<string, any>) {
@@ -313,7 +328,7 @@ export default class Block {
     if (this._element) {
       const content = this.getContent();
       if (content) {
-        content.style.display = 'block';
+        content.style.display = 'flex';
       }
     }
   }
@@ -325,4 +340,5 @@ export default class Block {
     }
   }
 }
+
 

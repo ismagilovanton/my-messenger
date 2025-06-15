@@ -4,28 +4,34 @@ import '../../static/index.ts';
 import './profile.scss';
 
 import { SettingsLayout } from '../../layouts/settings/settings.ts';
-import { ProfileView } from './profile.ts';
-import { renderDOM } from '../../utils/render.util.ts';
+import ProfileView from './profile.ts';
+import Block from '../../framework/Block.ts';
 
 
+export class ProfilePage extends Block {
+  constructor() {
+    super('div');
 
-document.addEventListener('DOMContentLoaded', () => {
+    const body = new ProfileView('div');
 
+    const layout = new SettingsLayout({
+      props: {
+        title: 'Профиль',
+      },
+      children: {
+        body,
+      },
+    });
 
+    this.setChildren({
+      layout,
+    });
+  }
 
-  const body = new ProfileView({});
+  override render() {
+    return '{{{layout}}}';
+  }
+}
 
-  const layout = new SettingsLayout({
-    props: {
-      title: 'Профиль',
-    },
-    children: {
-      body,
-    },
-  });
-
-  renderDOM('#app', layout);
- 
-});
 
 

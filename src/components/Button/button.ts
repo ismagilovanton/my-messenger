@@ -6,7 +6,7 @@ import './button.scss';
 
 interface ButtonProps {
   attributes?: { 
-    class: 'button-text' | 'button-main' | 'button-inline';
+    class: string;
     id: string;
     name: string;
     type?: string
@@ -27,4 +27,5 @@ export class Button extends Block {
     return template;
   }
 }
+
 

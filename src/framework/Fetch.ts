@@ -13,24 +13,26 @@ interface RequestOptions {
   headers?: Record<string, string>;
   timeout?: number;
 }
-  
-function queryStringify(data: Record<string, unknown>): string {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-  
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => {
-    const encodedKey = encodeURIComponent(key);
-    const encodedValue = encodeURIComponent(String(data[key]));
-    return `${result}${encodedKey}=${encodedValue}${index < keys.length - 1 ? '&' : ''}`;
-  }, '?');
-}
+
+export const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
+
+import { queryString } from '../utils/object.util';
+
 export class HTTPTransport {
+
+
+  private baseUrl: string;
+
+  constructor(private readonly apiEndpoint?: string) {
+    this.baseUrl = `${API_ENDPOINT}${this.apiEndpoint}`;
+  }
   
   private createRequest(method: Method) {
     return (url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> => {
-      return this.request(url, { ...options, method });
+      
+      const fullUrl = this.baseUrl ? `${this.baseUrl}${url}` : url;
+
+      return this.request(fullUrl, { ...options, method });
     };
   }
 
@@ -43,7 +45,7 @@ export class HTTPTransport {
   delete = this.createRequest(METHODS.DELETE);
 
   request(url: string, options: RequestOptions): Promise<XMLHttpRequest> {
-    const { method, data, headers, timeout = 5000 } = options;
+    const { method, data, headers = {}, timeout = 5000 } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -53,16 +55,43 @@ export class HTTPTransport {
 
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
+      const isFormData = data instanceof FormData;
 
-      xhr.open(method, isGet && data && typeof data === 'object' ? `${url}${queryStringify(data as Record<string, unknown>)}` : url);
+      xhr.withCredentials = true;
 
-      if (headers) {
-        for (const [key, value] of Object.entries(headers)) {
-          xhr.setRequestHeader(key, value);
-        }
+      xhr.open(method, isGet && data && typeof data === 'object' ? `${url}${queryString(data as Record<string, unknown>)}` : url);
+
+      // Устанавливаем базовые заголовки только если это не FormData
+      Object.assign(headers, {
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': 'https://ya-praktikum.tech',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      });
+
+      if (!isFormData) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
       }
 
-      xhr.onload = () => resolve(xhr);
+      // Установка пользовательских заголовков
+      Object.entries(headers).forEach(([key, value]) => {
+        xhr.setRequestHeader(key, value);
+      });
+
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr);
+        } else {
+          const error = new Error(JSON.parse(xhr.responseText).reason || `Error: ${xhr.status} ${xhr.statusText}`);
+          
+          // Добавляем статус к объекту ошибки
+          (error as any).status = xhr.status;
+          
+          reject(error);
+        }
+      };
+
       xhr.onerror = () => reject(new Error('Network error'));
       xhr.onabort = () => reject(new Error('Request aborted'));
       xhr.ontimeout = () => reject(new Error('Request timeout'));
@@ -77,4 +106,5 @@ export class HTTPTransport {
     });
   }
 }
+
 

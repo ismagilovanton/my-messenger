@@ -1,5 +1,13 @@
 export default `
-  {{{body}}}
+<div class="content">
+
+     
+      
+          {{{body}}}
+   
+
+</div>
 `;
+
 
 

@@ -6,12 +6,10 @@
   padding-bottom: 10px;
 
   &__actions {
+    align-items: center;
+    display: flex;
+    gap: 16px;
     margin-left: auto;
-
-    .menu {
-     padding: 0 11px;
-    }
-
   }
 
   &__info {
@@ -35,7 +33,5 @@
       font-weight: 600;
     }
   }
-
-
 }
 

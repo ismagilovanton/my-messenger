@@ -1,4 +1,4 @@
-export function formDataToObject<T extends Record<string, unknown>>(formData: FormData): T {
+export function formDataToObject<T>(formData: FormData): T {
   const obj: Record<string, string | string[]> = {};
 
   for (const [key, value] of formData.entries()) {
@@ -17,4 +17,5 @@ export function formDataToObject<T extends Record<string, unknown>>(formData: Fo
 
   return obj as T;
 }
+
 

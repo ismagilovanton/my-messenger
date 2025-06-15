@@ -12,6 +12,14 @@
     text-align: center;
   }
 
+  &__error {
+    background-color: $danger;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+    width: 100%;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -43,4 +51,5 @@
     }
   }
 }
+
 
