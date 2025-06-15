@@ -19,14 +19,19 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:style": "stylelint \"**/*.scss\"",
-    "lint:style:fix": "stylelint \"**/*.scss\" --fix"
+    "lint:style:fix": "stylelint \"**/*.scss\" --fix",
+    "test": "mocha"
   },
   "devDependencies": {
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "autoprefixer": "^10.4.21",
+    "chai": "^5.2.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-typescript": "^18.0.0",
+    "mocha": "^11.6.0",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
     "postcss-nested": "^7.0.2",
@@ -37,5 +42,13 @@
     "vite": "^6.2.0",
     "vite-plugin-handlebars": "^2.0.0",
     "stylelint-config-standard-scss": "^14.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^24.0.1",
+    "@types/sinon": "^17.0.4",
+    "@types/sinon-chai": "^4.0.0",
+    "sinon": "^21.0.0",
+    "sinon-chai": "^4.0.0",
+    "ts-node": "^10.9.2"
   }
 }

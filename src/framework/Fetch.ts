@@ -16,7 +16,7 @@ interface RequestOptions {
 
 export const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
 
-import { queryString } from '../utils/object.util';
+import { queryString } from '../utils/object.util.ts';
 
 export class HTTPTransport {
 
