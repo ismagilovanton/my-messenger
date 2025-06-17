@@ -20,12 +20,14 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:style": "stylelint \"**/*.scss\"",
     "lint:style:fix": "stylelint \"**/*.scss\" --fix",
-    "test": "mocha --require ts-node/register --require ./test/setup.ts 'src/**/*.spec.ts'"
+    "lint:all": "npm-run-all lint lint:style",
+    "test": "mocha --require ts-node/register --require ./test/setup.ts 'src/**/*.spec.ts'",
+    "prepare": "husky"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all test lint:all test",
-      "pre-push": "npm run other command"
+      "pre-commit": "npm-run-all test lint:all",
+      "pre-push": "npm-run-all test lint:all"
     }
   },
   "devDependencies": {
