@@ -138,7 +138,7 @@ export default class Block {
     Object.entries(this._items).forEach(([key, childList]) => {
       if (Array.isArray(childList)) {
         propsAndStubs[key] = childList.map(child => 
-          `<div data-id="${child._id}"></div>`
+          `<div data-id="${child._id}"></div>`,
         ).join('');
       }
     });
@@ -227,6 +227,7 @@ export default class Block {
     _oldProps: Record<string, unknown>, 
     _newProps: Record<string, unknown>,
   ) {
+    console.log(_oldProps, _newProps);
     return true;
   }
 

@@ -6,7 +6,7 @@ import Block from './Block.ts';
 describe('Block', () => {
   class TestBlock extends Block {
     render() {
-      return `<div>{{text}}{{{list}}}{{{child}}}</div>`;
+      return '<div>{{text}}{{{list}}}{{{child}}}</div>';
     }
   }
 
@@ -40,7 +40,7 @@ describe('Block', () => {
     const childBlock = new TestBlock('div', { props: { text: 'Child' } });
     const parentBlock = new TestBlock('div', { 
       props: { text: 'Parent' },
-      children: { child: childBlock }
+      children: { child: childBlock },
     });
     parentBlock.init(); 
 
@@ -53,7 +53,7 @@ describe('Block', () => {
     let clicked = false;
     const block = new TestBlock('div', {
       props: { text: 'Click me' },
-      events: { click: () => { clicked = true; } }
+      events: { click: () => { clicked = true; } },
     });
     block.init(); 
 
@@ -64,7 +64,7 @@ describe('Block', () => {
   it('should handle attributes correctly', () => {
     const block = new TestBlock('div', {
       props: { text: 'Test' },
-      attributes: { 'data-test': 'value' }
+      attributes: { 'data-test': 'value' },
     });
     block.init(); 
 
@@ -85,12 +85,12 @@ describe('Block', () => {
   it('should handle items (arrays) correctly', () => {
     const items = [
       new TestBlock('div', { props: { text: 'Item 1' } }),
-      new TestBlock('div', { props: { text: 'Item 2' } })
+      new TestBlock('div', { props: { text: 'Item 2' } }),
     ];
 
     const block = new TestBlock('div', {
       props: { text: 'Parent' },
-      items: { list: items }
+      items: { list: items },
     });
     block.init(); 
 
@@ -102,18 +102,18 @@ describe('Block', () => {
 
   it('should update items correctly', () => {
     const initialItems = [
-      new TestBlock('div', { props: { text: 'Item 1' } })
+      new TestBlock('div', { props: { text: 'Item 1' } }),
     ];
 
     const block = new TestBlock('div', {
       props: { text: 'Parent' },
-      items: { list: initialItems }
+      items: { list: initialItems },
     });
     block.init();
 
     const newItems = [
       new TestBlock('div', { props: { text: 'Item 1' } }),
-      new TestBlock('div', { props: { text: 'Item 2' } })
+      new TestBlock('div', { props: { text: 'Item 2' } }),
     ];
 
     block.setItems({ list: newItems });
@@ -127,8 +127,8 @@ describe('Block', () => {
     const block = new TestBlock('div', {
       props: { 
         text: 'Test',
-        settings: { withInternalID: true } 
-    },
+        settings: { withInternalID: true }, 
+      },
       
     });
     block.init();

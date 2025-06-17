@@ -36,36 +36,36 @@ describe('Router', () => {
 
 
   describe('Routes', () => {
-      it('should add route when use() is called', () => {
-        router.use('/test', MockBlock);
-        const route = router.getRoute('/test');
-        expect(route).to.exist;
-      });
+    it('should add route when use() is called', () => {
+      router.use('/test', MockBlock);
+      const route = router.getRoute('/test');
+      expect(route).to.exist;
+    });
     
-      it('should handle navigation with go()', async () => {
-        const pushStateSpy = sinon.spy(window.history, 'pushState');
-        router.use('/test', MockBlock);
+    it('should handle navigation with go()', async () => {
+      const pushStateSpy = sinon.spy(window.history, 'pushState');
+      router.use('/test', MockBlock);
         
-        await router.go('/test');
+      await router.go('/test');
         
-        expect(pushStateSpy.calledWith({}, '', '/test')).to.be.true;
-      });
-  })
+      expect(pushStateSpy.calledWith({}, '', '/test')).to.be.true;
+    });
+  });
 
 
-  describe('Navigation',() => {
-      it('should handle back navigation', () => {
-        const backSpy = sinon.spy(window.history, 'back');
-        router.back();
-        expect(backSpy.called).to.be.true;
-      });
+  describe('Navigation', () => {
+    it('should handle back navigation', () => {
+      const backSpy = sinon.spy(window.history, 'back');
+      router.back();
+      expect(backSpy.called).to.be.true;
+    });
     
-      it('should handle forward navigation', () => {
-        const forwardSpy = sinon.spy(window.history, 'forward');
-        router.forward();
-        expect(forwardSpy.called).to.be.true;
-      });
-  })
+    it('should handle forward navigation', () => {
+      const forwardSpy = sinon.spy(window.history, 'forward');
+      router.forward();
+      expect(forwardSpy.called).to.be.true;
+    });
+  });
 
   it('should handle not found route', async () => {
     router.use('/not-found', MockBlock);
@@ -78,33 +78,33 @@ describe('Router', () => {
 
 
   describe('Middleware', () => {
-      it('should handle middleware', async () => {
-        const middlewareMock = sinon.spy((next) => next());
-        router.use('/test', MockBlock, middlewareMock);
+    it('should handle middleware', async () => {
+      const middlewareMock = sinon.spy((next) => next());
+      router.use('/test', MockBlock, middlewareMock);
         
-        await router.go('/test');
+      await router.go('/test');
         
-        expect(middlewareMock.called).to.be.true;
-      });
+      expect(middlewareMock.called).to.be.true;
+    });
     
-      it('should handle middleware rejection', async () => {
-        const middlewareMock = sinon.spy(() => {
-          throw new Error('Middleware error');
-        });
-        
-        router.use('/test', MockBlock, middlewareMock);
-        router.use('/error', MockBlock);
-        
-        const pushStateSpy = sinon.spy(window.history, 'pushState');
-        const consoleErrorStub = sinon.stub(console, 'error');
-    
-        await router.go('/test');
-        
-        expect(pushStateSpy.calledWith({}, '', '/error')).to.be.true;
-        expect(consoleErrorStub.called).to.be.true;
-        consoleErrorStub.restore();
+    it('should handle middleware rejection', async () => {
+      const middlewareMock = sinon.spy(() => {
+        throw new Error('Middleware error');
       });
-  })
+        
+      router.use('/test', MockBlock, middlewareMock);
+      router.use('/error', MockBlock);
+        
+      const pushStateSpy = sinon.spy(window.history, 'pushState');
+      const consoleErrorStub = sinon.stub(console, 'error');
+    
+      await router.go('/test');
+        
+      expect(pushStateSpy.calledWith({}, '', '/error')).to.be.true;
+      expect(consoleErrorStub.called).to.be.true;
+      consoleErrorStub.restore();
+    });
+  });
 
   it('should handle popstate event', () => {
     router.use('/test', MockBlock);
