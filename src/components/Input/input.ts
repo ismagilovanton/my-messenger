@@ -61,7 +61,7 @@ export class InputComponent extends Block {
   }
 
   addEvents(): void {
-    const { events } = this._events as InputComponentProps;
+    const { events } = this._events as { events?: { blur?: (e: Event) => void } };
     const input = this.element?.querySelector<HTMLInputElement>('.field');
 
     input?.addEventListener('blur', (e: Event) => {

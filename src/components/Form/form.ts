@@ -13,7 +13,7 @@ interface FormProps {
     footer?: Block
   },
   items: {
-    inputs: Array<Block>
+    inputs: Array<InputComponent>
   }
   events: {
     submit: (e: Event) => void
@@ -34,9 +34,10 @@ export class Form extends Block {
     let isFormValid = true;
   
     // Validate each input
-    inputs.forEach((input: InputComponent) => {
-      if (typeof input.validate === 'function') {
-        const isValid = input.validate();
+    inputs.forEach((input) => {
+      const inputComponent = input as InputComponent;
+      if (typeof inputComponent.validate === 'function') {
+        const isValid = inputComponent.validate();
         if (!isValid) {
           isFormValid = false;
         }
