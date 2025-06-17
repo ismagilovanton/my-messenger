@@ -1,4 +1,4 @@
-import { renderDOM } from '../utils/render.util';
+import { renderDOM } from '../utils/render.util.ts';
 import Block from './Block';
 
 
