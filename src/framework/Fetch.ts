@@ -7,7 +7,7 @@ const METHODS = {
 
 type Method = typeof METHODS[keyof typeof METHODS];
 
-interface RequestOptions {
+export interface RequestOptions {
   method?: Method;
   data?: Record<string, unknown> | Document | XMLHttpRequestBodyInit;
   headers?: Record<string, string>;
@@ -15,9 +15,6 @@ interface RequestOptions {
 }
 
 export const API_ENDPOINT = 'https://ya-praktikum.tech/api/v2';
-
-import { queryString } from '../utils/object.util.ts';
-
 export class HTTPTransport {
 
 
@@ -27,6 +24,40 @@ export class HTTPTransport {
     this.baseUrl = `${API_ENDPOINT}${this.apiEndpoint}`;
   }
   
+  queryString(data: Record<string, unknown>): string {
+
+    if (
+      typeof data !== 'object' ||
+      data === null ||
+      Array.isArray(data)
+    ) {
+      throw new Error('Input must be a non-null object');
+    }
+
+    function encode(key: string): string {
+      // Encode everything except brackets
+      return encodeURIComponent(key).replace(/%5B/g, '[').replace(/%5D/g, ']');
+    }
+  
+    function buildParams(obj: unknown, prefix = ''): string[] {
+      if (obj === null || obj === undefined) return [];
+  
+      if (typeof obj === 'object' && !Array.isArray(obj)) {
+        return Object.entries(obj).flatMap(([key, value]) =>
+          buildParams(value, prefix ? `${prefix}[${key}]` : key),
+        );
+      }
+  
+      if (Array.isArray(obj)) {
+        return obj.flatMap(val => buildParams(val, `${prefix}[]`));
+      }
+  
+      return [`${encode(prefix)}=${encodeURIComponent(String(obj))}`];
+    }
+  
+    return buildParams(data).join('&');
+  }
+
   private createRequest(method: Method) {
     return (url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<XMLHttpRequest> => {
       
@@ -59,7 +90,7 @@ export class HTTPTransport {
 
       xhr.withCredentials = true;
 
-      xhr.open(method, isGet && data && typeof data === 'object' ? `${url}${queryString(data as Record<string, unknown>)}` : url);
+      xhr.open(method, isGet && data && typeof data === 'object' ? `${url}${this.queryString(data as Record<string, unknown>)}` : url);
 
       // Устанавливаем базовые заголовки только если это не FormData
       Object.assign(headers, {
