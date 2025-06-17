@@ -51,7 +51,7 @@ export function set(object: Indexed, path: string, value: unknown): Indexed {
 }
 
 
-type PlainObject<T = unknown> = {
+export type PlainObject<T = unknown> = {
   [k in string]: T;
 };
 
@@ -146,12 +146,4 @@ export function getParams(data: PlainObject | [], parentKey?: string) {
 
   return result;
 }
-
-export function queryString(data: PlainObject) {
-  if (!isPlainObject(data)) {
-    throw new Error('input must be an object');
-  }
-
-  return getParams(data).map(arr => arr.join('=')).join('&');
-} 
 

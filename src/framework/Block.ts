@@ -1,4 +1,4 @@
-import EventBus from './EventBus';
+import EventBus from './EventBus.ts';
 import Handlebars from 'handlebars';
 
 export interface PropsWithChildren {
@@ -20,67 +20,40 @@ export default class Block {
     FLOW_CDU: 'flow:component-did-update',
   } as const;
 
-  private _meta = {
-    tagName: 'div',
+  private _meta: {
+    tagName: string;
   };
   
-  protected _props: PropsWithChildren | null = null;
+  protected _props: Record<string, unknown>;
 
-  protected _children: Record<string, any> = {};
+  protected _children: Record<string, Block>;
 
   private _id = Math.floor(100000 + +Math.random() * 9000000);
 
   private _element: HTMLElement | null = null;
   
-  protected _items: Record<string, any[]> = {};
+  protected _items: Record<string, Block[]>;
 
-  private _attributes: Record<string, any> = {};
+  private _attributes: Record<string, string>;
 
-  protected _events: Record<string, any> = {};
+  protected _events: Record<string, (e: Event) => void>;
 
-  private _eventBus: EventBus | null = null;
+  private _eventBus: EventBus;
 
-  /**
-   * @param {string} tagName
-   * @param {Object} props
-   */
   constructor(tagName: string = 'div', propsWithChildren: PropsWithChildren = {}) {
-
     const { props = {}, children = {}, items = {}, attributes = {}, events = {} } = propsWithChildren;
 
-    this._eventBus = new EventBus();
-      
-    this._props = this._makePropsProxy({ ...props });
-    this._children = this._makePropsProxy({ ...children });
-    this._attributes = this._makePropsProxy({ ...attributes });
-    this._items = items;
-    this._events = events;
     this._meta = { tagName };
+    this._eventBus = new EventBus();
+    this._props = this._makePropsProxy(props);
+    this._children = this._makePropsProxy(children) as Record<string, Block>;
+    this._items = items;
+    this._attributes = attributes;
+    this._events = events;
+    
     this._registerEvents(this._eventBus);
     this._eventBus.emit(Block.EVENTS.INIT);
   }
-
-  // private _getChildrenPropsAndProps(propsWithChildren: PropsWithChildren) {
-  //   const props: Record<string, unknown> = {};
-  //   const children: Record<string, Block> = {};
-  //   const items: Record<string, Block[]> = {};
-
-  //   Object.entries(propsWithChildren).forEach(([key, value]) => {
-  //     if (value instanceof Block) {
-  //       children[key] = value;
-  //     } else if (Array.isArray(value)) {
-  //       items[key] = value;
-  //     } else {
-  //       props[key] = value;
-  //     }
-  //   });
-
-  //   return {
-  //     props,
-  //     children,
-  //     items,
-  //   };
-  // }
 
   private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -102,7 +75,7 @@ export default class Block {
     const [oldProps, newProps] = args as [Record<string, unknown>, Record<string, unknown>];
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
     if (shouldUpdate) {
-      this._eventBus?.emit(Block.EVENTS.FLOW_RENDER);
+      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
@@ -114,7 +87,7 @@ export default class Block {
         }
 
         if (typeof prop === 'symbol') {
-          return undefined; // Игнорируем символы
+          return undefined;
         }
 
         const value = target[prop];
@@ -126,14 +99,12 @@ export default class Block {
         }
 
         if (typeof prop === 'symbol') {
-          return false; // Игнорируем символы
+          return false;
         }
 
         const oldProps: Record<string, unknown> = { ...target };
         target[prop] = value;
-        if (this._eventBus) {
-          this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
-        }
+        this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
         return true;
       },
       deleteProperty() {
@@ -143,9 +114,10 @@ export default class Block {
   }
 
   private _createDocumentElement(tagName: string) {    
-    const element =  document.createElement(tagName);
-
-    if (this._props?.settings?.withInternalID) {
+    const element = document.createElement(tagName);
+    
+    const settings = this._props.settings as { withInternalID?: boolean } | undefined;
+    if (settings?.withInternalID) {
       element.setAttribute('data-id', this._id.toString());
     }
 
@@ -157,62 +129,49 @@ export default class Block {
   
     const propsAndStubs: Record<string, unknown> = { ...this._props };
   
-    // Updated listTmpIds to handle multiple ids per list
-    const listTmpIds: Record<string, string> = {};
-  
     // Handle single children
     Object.entries(this._children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
   
     // Handle lists (arrays of children)
-    Object.entries(this._items).forEach(([key]) => {
-      const tmpId = Math.floor(100000 + Math.random() * 9000000).toString();
-      listTmpIds[key] = tmpId;
-      // 👇 only one div, no multiple divs
-      propsAndStubs[key] = `<div data-id="__l_${tmpId}"></div>`;
+    Object.entries(this._items).forEach(([key, childList]) => {
+      if (Array.isArray(childList)) {
+        propsAndStubs[key] = childList.map(child => 
+          `<div data-id="${child._id}"></div>`,
+        ).join('');
+      }
     });
-  
   
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
   
-  
     // Replace single children
     Object.values(this._children).forEach((child) => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-      if (stub) {
-        stub.replaceWith(child.getContent());
+      const content = child.getContent();
+      if (stub && content) {
+        stub.replaceWith(content);
       }
     });
   
     // Replace list items
     Object.entries(this._items).forEach(([key, childList]) => {
-      const tmpId = listTmpIds[key];
-      const stub = fragment.content.querySelector(`[data-id="__l_${tmpId}"]`);
-    
       if (!Array.isArray(childList)) {
         console.warn(`Expected array for key "${key}", but got`, childList);
         return;
       }
     
-      if (stub) {
-        childList.forEach((item) => {
-          if (item instanceof Block) {
-            const content = item.getContent();
-            if (content) {
-              stub.parentNode?.insertBefore(content, stub);
-            }
-          } else {
-            stub.parentNode?.insertBefore(document.createTextNode(String(item)), stub);
+      childList.forEach((item) => {
+        if (item instanceof Block) {
+          const stub = fragment.content.querySelector(`[data-id="${item._id}"]`);
+          const content = item.getContent();
+          if (stub && content) {
+            stub.replaceWith(content);
           }
-        }); 
-        stub.remove();
-      } else {
-        console.warn(`Stub not found for list "${key}" with tmpId "${tmpId}"`);
-      }
+        }
+      });
     });
-    
   
     const newElement = fragment.content.firstElementChild;
   
@@ -221,12 +180,14 @@ export default class Block {
     }
   
     this._element = newElement as HTMLElement;
+
+    const settings = this._props.settings as { withInternalID?: boolean } | undefined;
+    if (settings?.withInternalID) {
+      this._element?.setAttribute('data-id', this._id.toString());
+    }
+
     this.addEvents();
     this._addAttributes();
-  }
-
-  addChildren() {
-    
   }
 
   addEvents() {
@@ -253,25 +214,20 @@ export default class Block {
 
   init() {
     this._createResources();
-    // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    if (this._eventBus) {
-      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
-    }
+    this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   componentDidMount() {}
 
   dispatchComponentDidMount() {
-    if (this._eventBus) {
-      this._eventBus.emit(Block.EVENTS.FLOW_CDM);
-    }
+    this._eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
   componentDidUpdate(
-    oldProps: Record<string, unknown>, 
-    newProps: Record<string, unknown>,
+    _oldProps: Record<string, unknown>, 
+    _newProps: Record<string, unknown>,
   ) {
-    console.log(oldProps, newProps);
+    console.log(_oldProps, _newProps);
     return true;
   }
 
@@ -279,41 +235,24 @@ export default class Block {
     if (!nextProps) return;
 
     const oldProps: Record<string, unknown> = { ...this._props };    
-  
     this._props = this._makePropsProxy({ ...this._props, ...nextProps });
-  
-    if (this._eventBus) {
-      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this._props);
-    }
+    this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this._props);
   }
 
-  setItems(nextItems: Record<string, any[]>) {
+  setItems(nextItems: Record<string, Block[]>) {
     if (!nextItems) return;
 
-    const oldItems: Record<string, any[]> = { ...this._items };
-    // console.log('Old items:', oldItems, 'New items:', nextItems);
-
-    this._items = this._makePropsProxy({ ...this._items, ...nextItems }) as Record<string, any[]>;
-
-    // Emit the FLOW_CDU event to trigger re-rendering
-    if (this._eventBus) {
-      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldItems, this._items);
-    }
-
+    const oldItems: Record<string, Block[]> = { ...this._items };
+    this._items = { ...this._items, ...nextItems };
+    this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldItems, this._items);
   }
 
-  setChildren(nextChildren: Record<string, any>) {
+  setChildren(nextChildren: Record<string, Block>) {
     if (!nextChildren) return;
 
     const oldChildren = { ...this._children };
-    // console.log('Old children:', oldChildren, 'New children:', nextChildren);
-
-    this._children = this._makePropsProxy({ ...this._children, ...nextChildren });
-
-    // Emit the FLOW_CDU event to trigger re-rendering
-    if (this._eventBus) {
-      this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldChildren, this._children);
-    }
+    this._children = { ...this._children, ...nextChildren };
+    this._eventBus.emit(Block.EVENTS.FLOW_CDU, oldChildren, this._children);
   }
 
   render() {

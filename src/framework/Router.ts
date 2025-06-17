@@ -1,5 +1,5 @@
-import Block from './Block';
-import { Route } from './Route';
+import Block from './Block.ts';
+import { Route } from './Route.ts';
 
 export class Router {
   static __instance: Router;
@@ -103,30 +103,4 @@ export class Router {
     return this.routes.find((route) => route.match(pathname));
   }
 }
-
-// // Необходимо оставить в силу особенностей тренажёра
-// history.pushState({}, '', '/');
-
-// const router = new Router('.app');
-
-// // Можно обновиться на /user и получить сразу пользователя
-// router
-//   .use('/', Chats)
-//   .use('/users', Users)
-//   .start();
-
-// // Через секунду контент изменится сам, достаточно дёрнуть переход
-// setTimeout(() => {
-//   router.go('/users');
-// }, 1000);
-
-// // А можно и назад
-// setTimeout(() => {
-//   router.back();
-// }, 3000);
-
-// // И снова вперёд
-// setTimeout(() => {
-//   router.forward();
-// }, 5000);
 

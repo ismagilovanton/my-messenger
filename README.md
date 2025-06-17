@@ -10,6 +10,9 @@
 * Eslint
 * Stylelint
 * WebSocket
+* Chai
+* Mocha
+* JsDom
 
 ## Цель проекта
 Реализация веб-мессенджера для обмена сообщениями
@@ -23,6 +26,8 @@
 * Форматирование eslint (с исправлением) ```eslint . --ext .ts --fix```
 * Форматирование stylelint ```eslint . --ext .ts```
 * Форматирование stylelint (с исправлением) ```eslint . --ext .ts --fix```
+* Запуск тестов ```npm run test```
+
 
 
 ## Список страниц
